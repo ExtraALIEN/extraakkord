@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'e9zfmps(eqh)bhn8!&4vmdd3$jwcm9bpivq9*d%1y#3zd&64v2'
+with open(os.path.join(BASE_DIR, 'etc', 'sec.txt')) as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'gunicorn']
 
 
 # Application definition
@@ -75,8 +76,9 @@ WSGI_APPLICATION = 'extraakkord.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'extraakkord',
+        'USER': 'akkord_backend'
     }
 }
 
