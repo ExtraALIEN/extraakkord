@@ -20,3 +20,7 @@ def song(request, artist_name, song_name):
 
 def pick(request, artist_name, song_name, pick_num):
     return HttpResponse(f'{artist_name}-{song_name}-{pick_num}')
+
+
+def top(request):
+    return HttpResponse('top')

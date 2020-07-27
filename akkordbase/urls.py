@@ -9,5 +9,5 @@ urlpatterns = [
     path('akkords/<tr:artist_name>/', views.artist),
     path('akkords/<tr:artist_name>/<tr:song_name>/', views.song),
     path('akkords/<tr:artist_name>/<tr:song_name>/<int:pick_num>', views.pick),
-
+    path('top/', views.top),
 ]

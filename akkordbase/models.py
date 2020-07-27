@@ -1,16 +1,34 @@
 from django.db import models
-
-
+from .converters import FullNameToSlugConverter as slugmaker
 # class CustomUser
     # tracklist
     # bio
 
+
 class Artist(models.Model):
     full_name = models.CharField(max_length=40)
-    # slug
+    slug = models.SlugField(max_length=50, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.full_name
+
+    def _get_unique_slug(self):
+        slug = slugmaker().to_python(self.full_name)
+        unique_slug = slug
+        num = 1
+        while Artist.objects.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{num}'
+            num += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self._get_unique_slug()
+        super().save(*args, **kwargs)
+
+
+    def get_url(self):
+        return f'/akkords/{self.slug}/'
 
 class Song(models.Model):
     full_name = models.CharField(max_length=40)
