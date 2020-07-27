@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['localhost', 'gunicorn']
 # Application definition
 
 INSTALLED_APPS = [
+    'akkordbase.apps.AkkordbaseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,7 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'extraakkord',
-        'USER': 'akkord_backend'
+        'USER': 'akkord_backend',
+        'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
 
@@ -118,5 +120,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
