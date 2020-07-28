@@ -1,0 +1,4 @@
+{% for pick in picks %}
+  <a href={% url 'akkordbase:pick_page' pick.song.artist.slug pick.song.slug pick.pick_id %}>{{pick.song}}</a>
+  {{pick.views}}
+{% endfor %}

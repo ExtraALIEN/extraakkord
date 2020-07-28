@@ -1,0 +1,4 @@
+<a href={% url 'akkordbase:all_artists' %}>Back</a>
+{% for song in artist.songs.alphabet_list %}
+  <a href={% url 'akkordbase:song_page' artist.slug song.slug %}>{{song}}</a>
+{% endfor %}

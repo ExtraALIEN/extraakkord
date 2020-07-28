@@ -1,0 +1,5 @@
+<a href={% url 'akkordbase:all_artists' %}>Over</a>
+<a href={% url 'akkordbase:artist_page' pick.song.artist.slug %}>{{pick.song.artist}}</a>
+<a href={% url 'akkordbase:song_page' pick.song.artist.slug pick.song.slug %}>{{pick.song}}</a>
+{{pick.music_data}}
+{{pick.views}}

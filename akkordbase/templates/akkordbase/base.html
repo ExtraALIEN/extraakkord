@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ExtraAkkord</title>
+  </head>
+  <body>
+    <header>
+      <div class="home">
+        <a href={% url 'akkordbase:index' %}>home</a>
+      </div>
+      <nav>
+        {% include './header-nav.html' with letters="АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" %}
+      </nav>
+      <nav>
+        {% include './header-nav.html' with letters="ABCDEFGHILMNOPQRSTUVWXYZ" %}
+      </nav>
+    </header>
+    <main>
+
+    </main>
+    <footer>
+    </footer>
+  </body>
+</html>

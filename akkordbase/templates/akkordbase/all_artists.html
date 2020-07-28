@@ -1,0 +1,3 @@
+{% for artist in artists %}
+  <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
+{% endfor %}
