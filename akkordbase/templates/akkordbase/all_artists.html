@@ -1,3 +1,20 @@
-{% for artist in artists %}
-  <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
-{% endfor %}
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+  {% if letter %}
+    <a href={% url 'akkordbase:artists_startswith' letter %}>{{letter}}</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>Все исполнители {% if letter%} на букву {{letter}} {% endif %}</h1>
+  {% if artists %}
+    <div class='list'>
+    {% for artist in artists %}
+      <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

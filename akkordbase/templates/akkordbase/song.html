@@ -1,6 +1,17 @@
-<a href={% url 'akkordbase:all_artists' %}>Over</a>
-<a href={% url 'akkordbase:artist_page' song.artist.slug %}>{{song.artist}}</a>
-{{song}}
-{% for pick in song.picks.all %}
-  <a href={% url 'akkordbase:pick_page' song.artist.slug song.slug pick.pick_id %}>{{pick}}</a>
-{% endfor %}
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+  <a href={% url 'akkordbase:artist_page' song.artist.slug %}>{{song.artist}}</a>
+  <a href={% url 'akkordbase:song_page' song.artist.slug song.slug %}>{{song}}</a>
+{% endblock %}
+
+{% block content %}
+  <h1>{{song.artist}} - {{song}}</h1>
+  <div class='list'>
+  {% for pick in song.picks.all %}
+    <a href={% url 'akkordbase:pick_page' song.artist.slug song.slug pick.pick_id %}>{{pick}}</a>
+  {% endfor %}
+  </div>
+{% endblock %}

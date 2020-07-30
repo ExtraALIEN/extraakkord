@@ -2,6 +2,9 @@
 <html lang="ru" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/main.css">
     <title>ExtraAkkord</title>
   </head>
   <body>
@@ -9,17 +12,27 @@
       <div class="home">
         <a href={% url 'akkordbase:index' %}>home</a>
       </div>
-      <nav>
-        {% include './header-nav.html' with letters="АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" %}
-      </nav>
-      <nav>
-        {% include './header-nav.html' with letters="ABCDEFGHILMNOPQRSTUVWXYZ" %}
+      <nav class="bar">
+        <div class='startswith'>
+          {% include './header-nav.html' with letters="АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" %}
+        </div>
+        <div class='startswith'>
+          {% include './header-nav.html' with letters="ABCDEFGHILMNOPQRSTUVWXYZ" %}
+        </div>
       </nav>
     </header>
     <main>
-
+      <nav class='menu'>
+        {% block menu %}
+        {% endblock %}
+      </nav>
+      <section class='content-area'>
+        {% block content %}
+        {% endblock %}
+      </section>
     </main>
     <footer>
     </footer>
+    <script src='/static/js/href.js'></script>
   </body>
 </html>

@@ -1,3 +1,15 @@
-{% for pick in picks %}
-  <a href={% url 'akkordbase:pick_page' pick.song.artist.slug pick.song.slug pick.pick_id %}>{{pick.song}}</a>
-{% endfor %}
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+{% endblock %}
+
+{% block content %}
+  <h1>Последние добавленные подборы</h1>
+  <div class='list'>
+  {% for pick in picks %}
+    <a href={% url 'akkordbase:pick_page' pick.song.artist.slug pick.song.slug pick.pick_id %}>{{pick.song}}</a>
+  {% endfor %}
+  </div>
+{% endblock %}

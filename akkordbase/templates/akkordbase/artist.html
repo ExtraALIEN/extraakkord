@@ -1,4 +1,16 @@
-<a href={% url 'akkordbase:all_artists' %}>Back</a>
-{% for song in artist.songs.alphabet_list %}
-  <a href={% url 'akkordbase:song_page' artist.slug song.slug %}>{{song}}</a>
-{% endfor %}
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+  <a href={{artist.get_url}}>{{artist}}</a>
+{% endblock %}
+
+{% block content %}
+  <h1>{{artist}}</h1>
+  <div class='list'>
+  {% for song in artist.songs.alphabet_list %}
+    <a href={% url 'akkordbase:song_page' artist.slug song.slug %}>{{song}}</a>
+  {% endfor %}
+  </div>
+{% endblock %}

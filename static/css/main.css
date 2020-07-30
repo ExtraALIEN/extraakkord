@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'DejaVuSans-ExtraLight';
+    src: url('/static/fonts/DejaVuSans-ExtraLight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+  font-family: 'DejaVuSans-ExtraLight';
+  font-size: 24px;
+}
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+header{
+  box-sizing: border-box;
+  flex-basis: 25vh;
+  flex-grow:1;
+  flex-shrink: 1;
+  padding-top: 2vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  background-image: url('/static/pic/bg.png');
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 20vh;
+}
+
+main{
+  flex-basis: 75vh;
+}
+
+.home{
+  padding-left: 1rem;
+  width: 50%;
+}
+
+a{
+  text-decoration: none;
+  color: #371a0c;
+}
+
+.bar{
+  box-sizing: border-box;
+  padding: .25rem 5%;
+  top: 20vh;
+  min-height: 5vh;
+  width: 100%;
+  border-top: .125rem solid #371a0c;
+  border-bottom: .125rem solid #371a0c;
+  background-color: #f4e8b6;
+}
+
+.startswith{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.startswith a{
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 2ex;
+  max-width: 2ex;
+  text-align: center;
+}
+
+main{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: .5rem auto;
+}
+
+.menu{
+  flex-basis: 20%;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: #f4e8b6;
+  border-right: .125rem solid #371a0c;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.menu a{
+  margin-top: .25rem;
+  margin-bottom: .25rem;
+}
+
+.current-location{
+  color: #cc721f;
+}
+
+.content-area{
+  box-sizing: border-box;
+  flex-basis: 80%;
+  padding: 1rem;
+}
+
+.content-area .list{
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.content-area .list a{
+  padding: .25rem;
+}
