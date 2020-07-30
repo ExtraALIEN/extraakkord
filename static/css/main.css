@@ -96,6 +96,16 @@ h1 {
   margin-bottom: .25rem;
 }
 
+.auth{
+  display:flex;
+  flex-flow: column nowrap;
+}
+
+.menu .auth a{
+  font-size: .75rem;
+  color: #2f8c5d;
+}
+
 .current-location{
   color: #cc721f;
 }
@@ -113,4 +123,30 @@ h1 {
 
 .content-area .list a{
   padding: .25rem;
+}
+
+.center{
+  display: flex;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.center form{
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.center form label{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.center form label > *{
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 50%;
 }

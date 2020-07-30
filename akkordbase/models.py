@@ -1,8 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 from .converters import FullNameToSlugConverter as slugmaker
-# class CustomUser
-    # tracklist
-    # bio
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=400, blank=True)
+    location = models.CharField(max_length=20, blank=True)
+    tracklist = models.ManyToManyField('Song', related_name='performers')
 
 
 class CustomQuerySet(models.QuerySet):

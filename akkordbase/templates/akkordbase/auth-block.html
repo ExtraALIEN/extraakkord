@@ -1,0 +1,9 @@
+<div class='auth'>
+  {% if user.is_anonymous %}
+  <a href={% url 'akkordbase:login' %}>Вход</a>
+  <a href={% url 'akkordbase:signup' %}>Регистрация</a>
+  {% else %}
+  <a href='#'>{{user}}</a>
+  <a href={% url 'akkordbase:logout' %}>Выход</a>
+  {% endif %}
+</div>

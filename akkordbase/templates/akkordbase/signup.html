@@ -1,0 +1,21 @@
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+{% endblock %}
+
+{% block content %}
+  <h1>Регистрация нового пользователя</h1>
+  <div class='center'>
+    <form action={% url 'akkordbase:signup'%} method=POST>
+      {% csrf_token %}
+      <label><span>Username</span><input type='text' name='username'></label>
+      <label><span>Email</span><input type='email' name='email'></label>
+      <label><span>Password</span><input type='password' name='password'></label>
+      <label><span>Confirm password</span><input type='password' name='confirm_password'></label>
+      <button type="submit" name="submit">Отправить</button>
+    </form>
+    {{form.errors}}
+  </div>
+{% endblock %}
