@@ -1,5 +1,4 @@
 from django.urls import path, re_path, register_converter
-from django.contrib.auth import views as auth_views
 from . import views, converters
 
 register_converter(converters.FullNameToSlugConverter, 'tr')
@@ -19,7 +18,8 @@ urlpatterns = [
          views.pick,
          name='pick_page'),
     path('top/', views.top),
-    path('login/', auth_views.LoginView.as_view(template_name='akkordbase/login.html'), name='login'),
+    path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('signup/', views.signup, name='signup')
+    path('signup/', views.signup, name='signup'),
+    path('profile/<tr:username>', views.profile, name='profile'),
 ]

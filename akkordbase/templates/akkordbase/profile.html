@@ -1,0 +1,42 @@
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+{% endblock %}
+
+{% block content %}
+  <h1>{{profile.user.username}}</h1>
+  <div class='info'>
+    <div class='row'>
+      <span class='col'>Зарегистрирован</span>
+      <span class='col'>{{profile.user.date_joined}}</span>
+    </div>
+    {% if can_edit %}
+    <div class='row'>
+      <span class='col'>Email</span>
+      <span class='col'>{{profile.user.email}}</span>
+    </div>
+    <div class='row'>
+      <span class='col'>Откуда</span>
+      <div class='col'><input form='update-profile' name='location'>{{profile.location}}</input></div>
+    </div>
+    <div class='row'>
+      <span class='col'>Немного о себе</span>
+      <div class='col'><textarea form='update-profile' name='bio' maxlength="400">{{profile.bio}}</textarea></div>
+    </div>
+    <form id='update-profile' method="POST" action={% url 'api:update_profile' user %}>
+      <button type="submit" name="button">Сохранить</button>
+    </form>
+    {% else %}
+      <div class='row'>
+        <span class='col'>Откуда</span>
+        <span class='col'>{{profile.location}}</span>
+      </div>
+      <div class='row'>
+        <span class='col'>Немного о себе</span>
+        <span class='col'>{{profile.bio}}</span>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

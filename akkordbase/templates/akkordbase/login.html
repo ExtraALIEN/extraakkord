@@ -8,10 +8,13 @@
 {% block content %}
   <h1>Вход</h1>
   <div class='center'>
-  <form action={% url 'akkordbase:login'%} method=POST>
-    {% csrf_token %}
-    {{form}}
-    <button type='submit'>Вход</button>
-  </form>
+    <form action={% url 'akkordbase:login'%} method=POST>
+      {% csrf_token %}
+      <label><span>Username</span><input type='text' name='username'></label>
+      <p class='form-error'>{{form.username.errors.as_text}}</p>
+      <label><span>Password</span><input type='password' name='password'></label>
+      <p class='form-error'>{{form.password.errors.as_text}}</p>
+      <button type="submit" name="submit">Отправить</button>
+    </form>
   </div>
 {% endblock %}

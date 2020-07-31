@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.forms import ValidationError
 from .models import Artist, Song, Pick
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 
 
 def index(request):
@@ -47,13 +48,28 @@ def pick(request, artist_name, song_name, pick_num):
     return render(request, 'akkordbase/pick.html', {'pick': the_pick})
 
 
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = authenticate(request,
+                                username=request.POST['username'],
+                                password=request.POST['password'])
+            if user is not None:
+                auth_login(request, user)
+                return HttpResponseRedirect(reverse('akkordbase:index'))
+        form.add_error('password', ValidationError('Неверный логин/пароль.'))
+    else:
+        form = LoginForm()
+    return render(request, 'akkordbase/login.html', {'form': form})
+
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(data=request.POST)
         if form.is_valid():
             print('form valid')
-            new_user = User.objects.create_user(**form.cleaned_data)
-            auth_login(request, user)
+            new_user = form.save()
+            auth_login(request, new_user)
             return HttpResponseRedirect(reverse('akkordbase:index'))
     else:
         form = SignupForm()
@@ -63,3 +79,9 @@ def signup(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('akkordbase:index'))
+
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    the_profile = user.profile
+    return render(request, 'akkordbase/profile.html', {'profile': the_profile,
+                                                       'can_edit': request.user == user})

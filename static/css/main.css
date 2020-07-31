@@ -150,3 +150,65 @@ h1 {
   flex-shrink: 0;
   flex-basis: 50%;
 }
+
+.form-error{
+  color: #a42222;
+  text-align: center;
+}
+
+.info{
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.info .row{
+  flex-basis: 1.25rem;
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.info .row .col{
+  flex-basis: 50%;
+}
+
+.info .row .col:first-child{
+  color: #602d14;
+}
+
+.info input, .info textarea{
+  box-sizing: border-box;
+  width: 90%;
+  font-size: .75rem;
+}
+
+.info textarea{
+  height: 5rem;
+}
+
+@media screen and (max-height: 550px){
+  html{
+    font-size: 20px;
+  }
+
+  header {
+    padding-top: 1vh;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .center{
+    min-height: 50vh;
+    height: auto;
+  }
+
+  .center form label{
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+
+  .center form label > *{
+    flex-basis: 1rem;
+  }
+}
