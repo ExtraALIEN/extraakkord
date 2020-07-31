@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.forms import ValidationError
 from .models import Artist, Song, Pick
 from .forms import SignupForm, LoginForm
+from akkordapi.forms import ChangePasswordForm
 
 
 def index(request):
@@ -83,5 +84,8 @@ def logout(request):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     the_profile = user.profile
+    psform = ChangePasswordForm()
     return render(request, 'akkordbase/profile.html', {'profile': the_profile,
-                                                       'can_edit': request.user == user})
+                                                       'can_edit': request.user == user,
+                                                       'psform': psform
+                                                       })

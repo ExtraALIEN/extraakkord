@@ -19,13 +19,16 @@
     </div>
     <div class='row'>
       <span class='col'>Откуда</span>
-      <div class='col'><input form='update-profile' name='location'>{{profile.location}}</input></div>
+      <div class='col'><input form='update-profile' name='location' value={{profile.location}} maxlength="20"></input></div>
     </div>
     <div class='row'>
       <span class='col'>Немного о себе</span>
-      <div class='col'><textarea form='update-profile' name='bio' maxlength="400">{{profile.bio}}</textarea></div>
+      <div class='col'>
+        <textarea form='update-profile' name='bio' maxlength="400">{{profile.bio}}</textarea>
+      </div>
     </div>
-    <form id='update-profile' method="POST" action={% url 'api:update_profile' user %}>
+    <form id='update-profile' method="POST" action={% url 'akkordapi:update_profile' profile.user.username %}>
+      {% csrf_token %}
       <button type="submit" name="button">Сохранить</button>
     </form>
     {% else %}
@@ -39,4 +42,29 @@
       </div>
     {% endif %}
   </div>
+  {% if can_edit %}
+  <h2>Сменить пароль</h2>
+  <form id='change-password' method="POST" action={% url 'akkordapi:change_password' profile.user.username %}>
+    {% csrf_token %}
+  <div class='info'>
+    <div class='row'>
+      <span class='col'>Старый пароль</span>
+      <div class='col'>{{psform.old_password}}</div>
+    </div>
+    <div class='row'>
+      <span class='col'>Новый пароль</span>
+      <div class='col'>{{psform.new_password}}</div>
+    </div>
+    <div class='row'>
+      <span class='col'>Повторить новый пароль</span>
+      <div class='col'>{{psform.new_confirm}}</div>
+    </div>
+  </div>
+    <button type="submit" name="button">Сохранить</button>
+  </form>
+  <div id='status'>
+  <!-- p class='ajax-info',  .... ajax-error -->
+  </div>
+  <script src="/static/js/profile.js"></script>
+  {% endif %}
 {% endblock %}

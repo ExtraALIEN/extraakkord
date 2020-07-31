@@ -81,6 +81,13 @@ h1 {
   margin: .5rem auto;
 }
 
+h2 {
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  margin: .25rem auto;
+}
+
 .menu{
   flex-basis: 20%;
   padding: 1rem;
@@ -181,10 +188,23 @@ h1 {
   box-sizing: border-box;
   width: 90%;
   font-size: .75rem;
+  color: #598870;
+}
+
+.info input:focus, .info textarea:focus{
+  color: #000000;
 }
 
 .info textarea{
   height: 5rem;
+}
+
+.ajax-info{
+  color: green;
+}
+
+.ajax-error{
+  color: red;
 }
 
 @media screen and (max-height: 550px){
@@ -194,6 +214,16 @@ h1 {
 
   header {
     padding-top: 1vh;
+  }
+}
+
+@media screen and (max-width: 800px){
+  .info .row{
+    flex-flow: column nowrap;
+  }
+
+  .info .row .col{
+    flex-basis: 1.5rem;
   }
 }
 
