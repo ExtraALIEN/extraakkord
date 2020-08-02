@@ -1,0 +1,29 @@
+<button type="button" id='open'>Открыть редактор</button>
+<section id='editor' class='editor popup'>
+  <button type='button' id='close' class='closer' >X</button>
+  <header>
+    <h2>Подбор {{artist}} - {{song}}</h2>
+  </header>
+  <div class='deck'>
+    <div class='tools'>
+
+    </div>
+    <div class='board' id='board'>
+      <button type='button' class='add add-line' id='add-line'>Добавить строку</button>
+      <div class='line'>
+        <div class='display text'>
+          <input class='text' placeholder='Добавьте текст строки песни сюда'></>
+          <div class='akkord'></div>
+          <div class='boi'></div>
+          <div class='vocals'></div>
+        </div>
+        <div class='mode'>
+          <button class='change-mode active' type="button" name="text">Текст</button>
+          <button class='change-mode' type="button" name="akkord">Аккорды</button>
+          <button class='change-mode' type="button" name="boi">Бой</button>
+          <button class='change-mode' type="button" name="vocals">Мотив</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

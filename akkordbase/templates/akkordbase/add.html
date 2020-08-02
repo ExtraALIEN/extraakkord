@@ -5,6 +5,9 @@
   <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
   {% if artist %}
     <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
+    {% if song %}
+      <a href={% url 'akkordbase:song_page' artist.slug song.slug %}>{{song}}</a>
+    {% endif %}
   {% endif %}
 {% endblock %}
 
@@ -12,20 +15,29 @@
   <h1>{{heading}}</h1>
   <div class='center'>
     {% if artist %}
-    <form class='ajax' action={% url view_url artist.slug %}
-     method='POST'>
+      {% if song %}
+      <form class='ajax' action={% url view_url artist.slug song.slug %}
+       method='POST'>
+      {% else %}
+      <form class='ajax' action={% url view_url artist.slug %}
+       method='POST'>
+      {% endif %}
     {% else %}
-    <form class='ajax' action={% url view_url %}
-     method='POST'>
+      <form class='ajax' action={% url view_url %}
+       method='POST'>
     {% endif %}
       {% csrf_token %}
       <div class='info'>
+    {% if not song %}
       {% for field in form %}
         <div class='row'>
           <label class='col' for='{{field.id_for_label}}'>{{field.label}}</label>
           <div class='col'>{{field}}</div>
         </div>
       {% endfor %}
+    {% else %}
+      {% include './pick-editor.html' %}
+    {% endif %}
       </div>
         <button type="submit" name="button">Сохранить</button>
       </form>
@@ -34,4 +46,7 @@
   <!-- p class='ajax-info',  .... ajax-error -->
   </div>
   <script type='module' src="/static/js/form.js"></script>
+  {% if song %}
+    <script type='module' src="/static/js/editor.js"></script>
+  {% endif %}
 {% endblock %}

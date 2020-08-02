@@ -9,6 +9,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=20, blank=True)
     tracklist = models.ManyToManyField('Song', related_name='performers')
 
+    def __str__(self):
+        return self.user.username
+
     def get_url(self):
         return f'/profile/{self.user.username}/'
 
@@ -101,7 +104,7 @@ class Pick(models.Model):
     # tone = Models.CharField
     # chordss (search)
     # boi (search)
-    author = models.ForeignKey('Profile', on_delete=models.DO_NOTHING)
+    added_by = models.ForeignKey('Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'{self.song.full_name} - {self.date_added}'

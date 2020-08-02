@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.contrib.auth.models import User
-from akkordbase.models import Artist, Song
+from akkordbase.models import Artist, Song, Pick
 
 onlychars_validator = RegexValidator(regex=re.compile('^[a-z0-9_]*$',
                                      flags=re.I),
@@ -99,3 +99,28 @@ class AddSongForm(forms.Form):
         new_song.artist = artist
         new_song.save()
         return new_song
+
+
+class AddPickForm(forms.Form):
+    music_data = forms.CharField(required=False,
+                                 widget=forms.HiddenInput)
+
+    def clean_full_name(self):
+        input = self.cleaned_data['music_data']
+        # if len(input) == 0:
+        #     self.add_error('full_name',
+        #                    forms.ValidationError(
+        #                     'Введите название песни'))
+        # elif Song.objects.filter(full_name=input).exists():
+        #     self.add_error('full_name',
+        #                    forms.ValidationError(
+        #                     'Данная песня уже добавлена'))
+        return input
+
+    def save(self, author, song):
+        new_pick = Pick(**self.cleaned_data)
+        #
+        new_pick.added_by = author.profile
+        new_pick.song = song
+        new_pick.save()
+        return new_pick

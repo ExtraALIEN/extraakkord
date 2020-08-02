@@ -15,7 +15,7 @@ body {
   flex-flow: column nowrap;
 }
 
-header{
+body > header{
   box-sizing: border-box;
   flex-basis: 25vh;
   flex-grow:1;
@@ -32,6 +32,8 @@ header{
 
 main{
   flex-basis: 75vh;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .home{
@@ -67,11 +69,6 @@ a{
   flex-basis: 2ex;
   max-width: 2ex;
   text-align: center;
-}
-
-main{
-  display: flex;
-  flex-flow: row nowrap;
 }
 
 h1 {
@@ -233,12 +230,151 @@ h2 {
   transform: translateY(-50%);
 }
 
+.popup{
+  display: none;
+  position: absolute;
+}
+
+.popup.editor.active{
+  display: flex;
+}
+
+.popup .closer{
+  position: absolute;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  right: .5rem;
+  top: .5rem;
+  padding: .5rem;
+  color: black;
+}
+
+.editor{
+  left: 1rem;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  border: .25rem solid #371a0c;
+  background-color: #ffffff;
+  flex-flow: column nowrap;
+}
+
+.editor header{
+  flex-basis: 2rem;
+}
+
+.editor .deck{
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+
+.tools{
+  flex-basis: 15%;
+}
+
+.board{
+  flex-basis: 85%;
+  box-sizing: border-box;
+  border-left: .125rem solid #371a0c;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  overflow-y: scroll;
+}
+
+.add-line{
+  background-color: transparent;
+  margin-top: 1rem;
+  order: 10000;
+}
+
+.line{
+  flex-basis: 1.5rem;
+  flex-grow: 1;
+  flex-shrink: 0;
+  width: 90%;
+  margin: 0 auto;
+  border: 1px solid #371a0c;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.line .display{
+  flex-basis: 80%;
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.line .display > *{
+  display: none;
+}
+
+.line .display.text .text{
+  display: block;
+  box-sizing: border-box;
+  flex-basis: 90%;
+  border-radius: 0;
+  box-shadow: none;
+  padding: .25rem;
+}
+
+.line .display.akkord .akkord{
+  display: block;
+  box-sizing: border-box;
+  flex-basis: 90%;
+  border-radius: 0;
+  box-shadow: none;
+  padding: .25rem;
+}
+
+.line .display.boi .boi{
+  display: block;
+  box-sizing: border-box;
+  flex-basis: 90%;
+  border-radius: 0;
+  box-shadow: none;
+  padding: .25rem;
+}
+
+.line .display.vocals .vocals{
+  display: block;
+  box-sizing: border-box;
+  flex-basis: 90%;
+  border-radius: 0;
+  box-shadow: none;
+  padding: .25rem;
+}
+
+.line .mode{
+  box-sizing: border-box;
+  flex-basis: 20%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.change-mode{
+  flex-basis: 1rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.change-mode.active{
+  border-left: .25rem solid #20c64e;
+  background-color: #a5e3b6;
+}
+
 @media screen and (max-height: 550px){
   html{
     font-size: 20px;
   }
 
-  header {
+  body > header {
     padding-top: 1vh;
   }
 }

@@ -3,7 +3,7 @@
 {% block menu %}
   <a href={% url 'akkordbase:index' %}>Главная</a>
   <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
-  <a href={{artist.get_url}}>{{artist}}</a>
+  <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
 {% endblock %}
 
 {% block content %}

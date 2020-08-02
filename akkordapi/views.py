@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
-from .forms import ChangePasswordForm, AddArtistForm, AddSongForm
+from .forms import ChangePasswordForm, AddArtistForm, AddSongForm, AddPickForm
 from django.contrib.auth import authenticate, update_session_auth_hash
 from akkordbase.models import Artist
 
@@ -54,5 +54,17 @@ def add_song(request, artist_name):
         if form.is_valid():
             new_song = form.save(request.user, the_artist)
             return JsonResponse({'info': f'{the_artist} - {new_song} песня добавлена'})
+        return JsonResponse({'error': [form.errors[x] for x in form.errors]})
+    return JsonResponse({'error': 'Не удалось получить данные'})
+
+
+def add_pick(request, artist_name, song_name):
+    if request.method == 'POST' and request.user is not None:
+        form = AddPickForm(request.POST)
+        the_artist = Artist.objects.get(slug=artist_name)
+        the_song = the_artist.songs.get(slug=song_name)
+        if form.is_valid():
+            new_pick = form.save(request.user, the_song)
+            return JsonResponse({'info': 'Подбор добавлен'})
         return JsonResponse({'error': [form.errors[x] for x in form.errors]})
     return JsonResponse({'error': 'Не удалось получить данные'})

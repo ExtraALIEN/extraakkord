@@ -15,3 +15,7 @@
   {% endfor %}
   </div>
 {% endblock %}
+
+{% block add %}
+  <a class='add' id='add' href={% url 'akkordbase:add_pick' song.artist.slug song.slug %}>Добавить подбор на песню {{artist}} - {{song}}</a>
+{% endblock %}
