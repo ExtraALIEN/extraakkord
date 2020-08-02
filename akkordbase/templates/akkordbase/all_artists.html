@@ -18,3 +18,7 @@
     </div>
   {% endif %}
 {% endblock %}
+
+{% block add %}
+  <a class='add' id='add' href={% url 'akkordbase:add_artist' %}>Добавить исполнителя/группу</a>
+{% endblock %}

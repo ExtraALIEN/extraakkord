@@ -1,0 +1,37 @@
+{% extends './base.html' %}
+
+{% block menu %}
+  <a href={% url 'akkordbase:index' %}>Главная</a>
+  <a href={% url 'akkordbase:all_artists' %}>Все исполнители</a>
+  {% if artist %}
+    <a href={% url 'akkordbase:artist_page' artist.slug %}>{{artist}}</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>{{heading}}</h1>
+  <div class='center'>
+    {% if artist %}
+    <form class='ajax' action={% url view_url artist.slug %}
+     method='POST'>
+    {% else %}
+    <form class='ajax' action={% url view_url %}
+     method='POST'>
+    {% endif %}
+      {% csrf_token %}
+      <div class='info'>
+      {% for field in form %}
+        <div class='row'>
+          <label class='col' for='{{field.id_for_label}}'>{{field.label}}</label>
+          <div class='col'>{{field}}</div>
+        </div>
+      {% endfor %}
+      </div>
+        <button type="submit" name="button">Сохранить</button>
+      </form>
+  </div>
+  <div id='status'>
+  <!-- p class='ajax-info',  .... ajax-error -->
+  </div>
+  <script type='module' src="/static/js/form.js"></script>
+{% endblock %}

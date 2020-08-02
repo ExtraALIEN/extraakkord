@@ -14,3 +14,7 @@
   {% endfor %}
   </div>
 {% endblock %}
+
+{% block add %}
+  <a class='add' id='add' href={% url 'akkordbase:add_song' artist.slug %}>{{artist}} - добавить песню</a>
+{% endblock %}

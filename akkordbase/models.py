@@ -9,6 +9,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=20, blank=True)
     tracklist = models.ManyToManyField('Song', related_name='performers')
 
+    def get_url(self):
+        return f'/profile/{self.user.username}/'
+
 
 class CustomQuerySet(models.QuerySet):
     def alphabet_list(self):
@@ -22,6 +25,9 @@ class Artist(models.Model):
     full_name = models.CharField(max_length=40)
     slug = models.SlugField(max_length=50, unique=True, blank=True, null=True)
     qs = CustomQuerySet.as_manager()
+    added_by = models.ForeignKey('Profile', on_delete=models.DO_NOTHING, related_name='added_artists')
+    objects = models.Manager()
+
 
     def __str__(self):
         return self.full_name
@@ -40,7 +46,6 @@ class Artist(models.Model):
             self.slug = self._get_unique_slug()
         super().save(*args, **kwargs)
 
-
     def get_url(self):
         return f'/akkords/{self.slug}/'
 
@@ -52,6 +57,9 @@ class Song(models.Model):
                                related_name='songs')
     slug = models.SlugField(max_length=50, blank=True, null=True)
     qs = CustomQuerySet.as_manager()
+    added_by = models.ForeignKey('Profile', on_delete=models.DO_NOTHING, related_name='added_songs')
+    objects = models.Manager()
+
 
     def __str__(self):
         return self.full_name
@@ -93,7 +101,7 @@ class Pick(models.Model):
     # tone = Models.CharField
     # chordss (search)
     # boi (search)
-    # author = Models.ForeignKey('customuser', on_delete=models.DO_NOTHING)
+    author = models.ForeignKey('Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'{self.song.full_name} - {self.date_added}'

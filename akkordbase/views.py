@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.forms import ValidationError
 from .models import Artist, Song, Pick
 from .forms import SignupForm, LoginForm
-from akkordapi.forms import ChangePasswordForm
+from akkordapi.forms import ChangePasswordForm, AddArtistForm, AddSongForm
 
 
 def index(request):
@@ -89,3 +89,20 @@ def profile(request, username):
                                                        'can_edit': request.user == user,
                                                        'psform': psform
                                                        })
+
+def add_artist(request):
+    form = AddArtistForm()
+    return render(request, 'akkordbase/add.html',
+                  {'heading': 'Добавить исполнителя',
+                   'form': form,
+                   'view_url': 'akkordapi:add_artist',})
+
+def add_song(request, artist_name):
+    the_artist = get_object_or_404(Artist, slug=artist_name)
+    form = AddSongForm()
+    return render(request, 'akkordbase/add.html',
+                  {'heading': f'{the_artist} - добавить песню',
+                   'form': form,
+                   'view_url': 'akkordapi:add_song',
+                   'artist': the_artist
+                   })

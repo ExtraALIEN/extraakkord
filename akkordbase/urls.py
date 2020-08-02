@@ -22,4 +22,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('profile/<tr:username>', views.profile, name='profile'),
+    path('add_artist/', views.add_artist, name='add_artist'),
+    path('add_song/<tr:artist_name>', views.add_song, name='add_song')
 ]

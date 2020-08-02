@@ -30,6 +30,12 @@
       <section class='content-area'>
         {% block content %}
         {% endblock %}
+        {% if user.is_anonymous %}
+          
+        {% else %}
+          {% block add %}
+          {% endblock %}
+        {% endif %}
       </section>
     </main>
     <footer>

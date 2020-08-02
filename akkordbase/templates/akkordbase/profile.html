@@ -44,7 +44,7 @@
   </div>
   {% if can_edit %}
   <h2>Сменить пароль</h2>
-  <form id='change-password' method="POST" action={% url 'akkordapi:change_password' profile.user.username %}>
+  <form class='ajax' method="POST" action={% url 'akkordapi:change_password' profile.user.username %}>
     {% csrf_token %}
   <div class='info'>
     <div class='row'>
@@ -65,6 +65,6 @@
   <div id='status'>
   <!-- p class='ajax-info',  .... ajax-error -->
   </div>
-  <script src="/static/js/profile.js"></script>
+  <script type='module' src="/static/js/form.js"></script>
   {% endif %}
 {% endblock %}

@@ -1,4 +1,4 @@
-function requestChangePassword(event){
+function postAjax(event){
   event.preventDefault();
   let options = {method: 'POST',
                  body: new FormData(event.target)};
@@ -18,5 +18,4 @@ function populateStatus(data){
   }
 }
 
-let psform = document.getElementById('change-password');
-psform.addEventListener('submit', requestChangePassword);
+export {postAjax};

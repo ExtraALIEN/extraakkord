@@ -140,7 +140,7 @@ h2 {
 }
 
 .center form{
-  width: 50%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   flex-flow: column nowrap;
@@ -177,6 +177,8 @@ h2 {
 }
 
 .info .row .col{
+  box-sizing: border-box;
+  padding: .5rem;
   flex-basis: 50%;
 }
 
@@ -186,7 +188,7 @@ h2 {
 
 .info input, .info textarea{
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   font-size: .75rem;
   color: #598870;
 }
@@ -207,6 +209,30 @@ h2 {
   color: red;
 }
 
+.add{
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: .75rem;
+  width: 30%;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #371a0c;
+}
+
+.add:hover{
+  background-color: #f4e8b6;
+}
+
+.add::before{
+  position: absolute;
+  display:table;
+  content: '+';
+  left: .5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 @media screen and (max-height: 550px){
   html{
     font-size: 20px;
@@ -217,6 +243,13 @@ h2 {
   }
 }
 
+@media screen and (max-width: 900px){
+  .add{
+    width: 80%;
+  }
+}
+
+
 @media screen and (max-width: 800px){
   .info .row{
     flex-flow: column nowrap;
@@ -224,6 +257,7 @@ h2 {
 
   .info .row .col{
     flex-basis: 1.5rem;
+    padding: 0;
   }
 }
 
