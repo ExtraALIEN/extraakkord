@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, update_session_auth_hash
 from akkordbase.models import Artist
 
 def test(request):
-    return HttpResponse('api test')
+    return render(request, 'akkordbase/test.html')
 
 def update_profile(request, username):
     if request.method == 'POST' and request.user.username == username:
