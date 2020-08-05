@@ -229,4 +229,8 @@ function fretOffset(st, fr){
   return deltaSemitones;
 }
 
-export {adjacentTone, detectApplicature, fretToHz, fretOffset};
+function otherChordsNames(){
+  return Object.keys(CHORD_SEMITONES).filter( a=> !(['','m','7'].includes(a)));
+}
+
+export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames};

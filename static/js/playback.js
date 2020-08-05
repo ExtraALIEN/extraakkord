@@ -19,38 +19,37 @@ function createOsc(freq){
 
 function createBuffer(){
   let bank = {};
-    fetch(`/static/wav/0.wav`)
+  for(let x=0; x<6;x++){
+    fetch(`/static/wav/${x}.wav`)
       .then(response => response.arrayBuffer())
       .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
       .then(buffer => {
-          bank['0'] = buffer;
+          bank[x] = buffer;
         });
+  }
   return bank;
 }
 
-function createBufferSource(hz){
-  let node = new AudioBufferSourceNode(ctx, {detune : hz*100, playbackRate: 1});
-  node.buffer = soundBank['0'];
-  console.log(node);
+function createBufferSource(st, fr){
+  let node = new AudioBufferSourceNode(ctx, {detune : fr*100, playbackRate: 1});
+  node.buffer = soundBank[st];
+
   node.connect(ctx.destination);
   return node;
   //node.stop(4.1);
 }
 
 function playChord(frets){
-  let hz = [];
+  let nodes = [];
   for(let x in frets){
     if(frets[x] !== -1){
-      hz.push(fretOffset(x, frets[x]));
+      nodes.push(createBufferSource(x, frets[x]));
     }
   }
   let now = ctx.currentTime;
-  for(let x in hz){
-     let src = createBufferSource(hz[x]);
-     src.start(now + .3 + .012*x);
+  for(let x in nodes){
+     nodes[x].start(now + .3 + .003125*x);
   }
 }
-
-
 
 export {playChord};

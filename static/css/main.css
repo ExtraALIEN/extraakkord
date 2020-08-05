@@ -272,6 +272,7 @@ h2 {
 
 .tools{
   flex-basis: 15%;
+  min-height: 75vh;
 }
 
 .board{
@@ -291,9 +292,10 @@ h2 {
 }
 
 .line{
-  flex-basis: 1.5rem;
-  flex-grow: 1;
-  flex-shrink: 0;
+  box-sizing: border-box;
+  flex-basis: 4.25rem;
+  flex-grow: 0;
+  flex-shrink: 1;
   width: 90%;
   margin: 0 auto;
   border: 1px solid #371a0c;
@@ -332,6 +334,7 @@ h2 {
   border-radius: 0;
   box-shadow: none;
   padding: .25rem;
+  padding-bottom: 1.25rem;
 }
 
 .grid{
@@ -418,6 +421,8 @@ h2 {
 .cell .full .extend > div{
   flex-basis: 60%;
   width: 60%;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .cell .full .play{
@@ -441,6 +446,7 @@ h2 {
   border-radius: 0;
   box-shadow: none;
   padding: .25rem;
+  padding-bottom: 1.25rem;
 }
 
 .line .display.vocals .vocals{
@@ -453,6 +459,7 @@ h2 {
   border-radius: 0;
   box-shadow: none;
   padding: .25rem;
+  padding-bottom: 1.25rem;
 }
 
 .line .mode{

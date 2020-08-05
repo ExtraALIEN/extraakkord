@@ -1,4 +1,4 @@
-import {adjacentTone, detectApplicature} from './music-calc.js';
+import {adjacentTone, detectApplicature, otherChordsNames} from './music-calc.js';
 import {playChord} from './playback.js';
 
 let opener = document.getElementById('open');
@@ -44,6 +44,56 @@ function activateLineButtons(line){
   for (let x of [...line.querySelectorAll('.play')]){
     x.addEventListener('click', testChord);
   }
+
+  for (let x of [...line.querySelectorAll('.ok')]){
+    x.addEventListener('click', confirmChord);
+  }
+
+  for (let x of [...line.querySelectorAll('.akkord [name="all"]')]){
+    x.addEventListener('click', loadAllChords);
+  }
+}
+
+function loadAllChords(event){
+  let currentTone = this.parentElement
+                       .parentElement
+                       .parentElement.querySelector('.val').innerHTML;
+  let div = this.parentElement;
+  let sample = this.parentElement.querySelector('.extend:nth-child(2)').cloneNode(true);
+  this.remove();
+  for (let x of otherChordsNames()){
+    let btn = sample.querySelector('.option');
+    btn.name = x;
+    btn.innerHTML = `${currentTone}${x}`;
+    let newBlock = sample.cloneNode(true);
+    div.append(newBlock);
+    btn = newBlock.querySelector('.option');
+    btn.addEventListener('click', loadApplicature);
+    btn.dispatchEvent(new Event('click'));
+    for (let b of [...newBlock.querySelectorAll('.extend div button')]){
+       b.addEventListener('click', listApplicature);
+    }
+    for (let b of [...newBlock.querySelectorAll('.play')]){
+      b.addEventListener('click', testChord);
+    }
+
+
+
+  }
+
+}
+
+function confirmChord(event){
+  let cycle = this.parentElement
+                  .parentElement
+                  .parentElement
+                  .parentElement;
+  let span = cycle.querySelector('.next-val');
+  let option = this.parentElement.querySelector('.option');
+  span.dataset.chord = option.innerHTML;
+  span.innerHTML = option.innerHTML;
+  span.dataset.applicature = JSON.parse(localStorage.getItem('applicatures'))[option.innerHTML][option.dataset.index];
+
 }
 
 function testChord(event){
@@ -77,17 +127,17 @@ function loadApplicature(event){
   let currentTone = this.parentElement
                        .parentElement
                        .parentElement.querySelector('.val').innerHTML;
-  let applicatures = detectApplicature(currentTone, this.name);
-  let numbers = applicatures[this.dataset.index].replace(/:/g, ' ');
-  this.parentElement.querySelector('.applicature').innerHTML = numbers;
   if (!('applicatures' in localStorage)){
     localStorage.setItem('applicatures', JSON.stringify({}));
   }
   let locApplicatures = JSON.parse(localStorage.getItem('applicatures'));
   if (!((`${currentTone}${this.name}`) in locApplicatures)){
+    let applicatures = detectApplicature(currentTone, this.name);
     locApplicatures[`${currentTone}${this.name}`] = applicatures;
+    localStorage.setItem('applicatures', JSON.stringify(locApplicatures));
   }
-  localStorage.setItem('applicatures', JSON.stringify(locApplicatures));
+  let numbers = locApplicatures[`${currentTone}${this.name}`][this.dataset.index].replace(/:/g, ' ');
+  this.parentElement.querySelector('.applicature').innerHTML = numbers;
 }
 
 function changeBasetone(event){
@@ -98,6 +148,7 @@ function changeBasetone(event){
   let cycle = currentVal.parentElement.parentElement;
   for (let x of [...cycle.querySelectorAll('.option')]){
     x.innerHTML = `${newTone}${x.name}`;
+    x.dataset.index = 0;
     x.addEventListener('click', loadApplicature);
     x.dispatchEvent(new Event('click'));
   }
@@ -128,6 +179,27 @@ function addCycle(event){
   block.querySelector('.grid').append(cycle);
   cycle.addEventListener('click', showPopup);
   cycle.querySelector('.closer').addEventListener('click', hidePopup);
+  for (let x of [...cycle.querySelectorAll('.base button')]){
+    x.addEventListener('click', changeBasetone);
+  }
+  for (let x of [...cycle.querySelectorAll('.akkord .option')]){
+    x.addEventListener('click', loadApplicature);
+    x.dispatchEvent(new Event('click'));
+  }
+  for (let x of [...cycle.querySelectorAll('.extend > div button')]){
+    x.addEventListener('click', listApplicature);
+  }
+  for (let x of [...cycle.querySelectorAll('.play')]){
+    x.addEventListener('click', testChord);
+  }
+
+  for (let x of [...cycle.querySelectorAll('.ok')]){
+    x.addEventListener('click', confirmChord);
+  }
+
+  for (let x of [...cycle.querySelectorAll('.akkord [name="all"]')]){
+    x.addEventListener('click', loadAllChords);
+  }
 }
 
 function rmCycle(event){
