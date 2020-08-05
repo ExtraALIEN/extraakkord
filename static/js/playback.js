@@ -33,7 +33,6 @@ function createBuffer(){
 function createBufferSource(st, fr){
   let node = new AudioBufferSourceNode(ctx, {detune : fr*100, playbackRate: 1});
   node.buffer = soundBank[st];
-
   node.connect(ctx.destination);
   return node;
   //node.stop(4.1);
@@ -48,7 +47,7 @@ function playChord(frets){
   }
   let now = ctx.currentTime;
   for(let x in nodes){
-     nodes[x].start(now + .3 + .003125*x);
+     nodes[x].start(now + .3 + .03125*x);
   }
 }
 
