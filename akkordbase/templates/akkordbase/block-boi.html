@@ -1,0 +1,71 @@
+<div class='boi' data-type='boi'>
+  <div class='grid'>
+    <div class='cycle show'>
+      <div class='cell popup'>
+        <button type='button' class='closer' >X</button>
+      </div>
+    </div>
+  </div>
+  <div class='controls'>
+    <div class='show'><span>Создать бой</span>
+      <div class='create popup'>
+        <button type='button' class='closer' >X</button>
+        <p>Создать бой</p>
+        <p>Название боя:</p>
+        <input type="text" name="boi-name" value="">
+        <p>Длительность цикла:</p>
+        <div class='boi-long'>
+          <button type="button" name="-"><-</button>
+          <span data-long='4'>4</span>
+          <button type="button" name="+">-></button>
+        </div>
+        <div class='area'>
+          <p>Тип удара по струнам</p>
+          <div class="direction">
+            <label class='s'><input type="radio" name="direction" value="s" checked><span>Слабо вниз</span></label>
+            <label class='d'><input type="radio" name="direction" value="d"><span>Сильно вниз</span></label>
+            <label class='x'><input type="radio" name="direction" value="x"><span>Вниз с глушением</span></label>
+            <label class='u'><input type="radio" name="direction" value="u"><span>Вверх</span></label>
+            <label class='i'><input type="radio" name="direction" value="i"><span>Вверх с глушением</span></label>
+            <label class='p'><input type="radio" name="direction" value="p"><span>Перебор</span></label>
+            <label class=''><input type="radio" name="direction" value=""><span>Удалить удар</span></label>
+          </div>
+          <div class="cover">
+            <label class='z'><input type="radio" name="cover" value="z" checked><span>Все струны</span></label>
+            <label class='q'><input type="radio" name="cover" value="q"><span>5,4,3,2,1</span></label>
+            <label class='w'><input type="radio" name="cover" value="w"><span>4,3,2,1</span></label>
+            <label class='e'><input type="radio" name="cover" value="e"><span>3,2,1</span></label>
+            <label class='r'><input type="radio" name="cover" value="r"><span>2,1</span></label>
+            <label class='h'><input type="radio" name="cover" value="h"><span>6,5,4,3,2</span></label>
+            <label class='g'><input type="radio" name="cover" value="g"><span>6,5,4,3</span></label>
+            <label class='f'><input type="radio" name="cover" value="f"><span>6,5,4</span></label>
+            <label class='dd'><input type="radio" name="cover" value="d"><span>6,5</span></label>
+            <label class='b'><input type="radio" name="cover" value="b"><span>Бас поочередно</span></label>
+            <label class='p6'><input type="radio" name="cover" value="6"><span>6</span></label>
+            <label class='p5'><input type="radio" name="cover" value="5"><span>5</span></label>
+            <label class='p4'><input type="radio" name="cover" value="4"><span>4</span></label>
+            <label class='p3'><input type="radio" name="cover" value="3"><span>3</span></label>
+            <label class='p2'><input type="radio" name="cover" value="2"><span>2</span></label>
+            <label class='p1'><input type="radio" name="cover" value="1"><span>1</span></label>
+          </div>
+        </div>
+        <p>Последовательность боя:</p>
+        <div class='boi-field'>
+          <div class="hit" data-hit=''>
+            <div class='bg'></div>
+          </div>
+        </div>
+        <div class="controls">
+          <button type="button" name="add-hit">Добавить</button>
+          <button type="button" name="rm-hit">Удалить</button>
+        </div>
+        <div class="controls">
+          <button type="button" name="test">Прослушать</button>
+          <button type="button" name="save">Сохранить</button>
+        </div>
+      </div>
+
+    </div>
+    <button type="button" name="add-cycle">Добавить циклы</button>
+    <button type="button" name="rm-cycle">Удалить циклы</button>
+  </div>

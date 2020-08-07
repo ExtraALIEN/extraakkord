@@ -8,10 +8,12 @@ let HIT_TYPES = {
   's': 'u',
   'i': 'u',
   'p': 'u',
+  '0': 'd',
 
 }
 
 let HIT_AREA = {
+  '0': [],
   '1': [5],
   '2': [4],
   '3': [3],
@@ -229,7 +231,7 @@ function soundDuration(bpm, cycles, boi){
   return tick * boi.cycleLength * cycles;
 }
 
-document.body.addEventListener('click', test);
+//document.body.addEventListener('click', test);
 
 function createSoundSources(bpm, data, offset){
   //console.log(data);

@@ -12,9 +12,12 @@ closer.addEventListener('click', () => {editor.classList.remove('active')});
 let addLineButton = document.getElementById('add-line');
 addLineButton.addEventListener('click', addLine);
 let firstLine = document.querySelector('.line');
-let firstAkkordCycle = document.querySelector('.akkord .cycle');
 createSpecimen(firstLine, 'line');
-createSpecimen(firstAkkordCycle, 'akkord');
+for (let x of ['akkord', 'boi']){
+  let smpCycle = document.querySelector(`.${x} .cycle`);
+  createSpecimen(smpCycle, x);
+}
+createSpecimen(document.querySelector(`.create .hit`), 'hit');
 activateButtons(firstLine, 'line');
 
 
@@ -30,5 +33,23 @@ function testChord(event){
   playChord(nums);
 }
 
+function testBoi(event){
+  let block = this.closest('.create');
+  let hitElements = block.querySelectorAll('.boi-field .hit');
+  let cycleLength = block.querySelector('[data-long]').dataset.long;
+  let hits = [...hitElements].map(a=> a.dataset.hit).map(a=> a.length > 1? a: '00');
+  let hitObj = {};
+  for(let i=0; i< hits.length; i++){
+    let h = hits[i];
+    if (!(h in hitObj)){
+      hitObj[h] = [];
+    }
+    hitObj[h].push(i+1);
+  }
+  let boi = {'divide': hits.length,
+             'cycleLength': cycleLength,
+            'hits': hitObj};
+}
 
-export {testChord};
+
+export {testChord, testBoi};

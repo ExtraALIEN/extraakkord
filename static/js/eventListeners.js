@@ -1,11 +1,11 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
-        loadApplicature, listApplicature, confirmChord} from './existingElementsChange.js';
-import {addCycle, rmCycle, loadAllChords} from './dom.js';
-import {testChord} from './editor.js';
+        loadApplicature, listApplicature, confirmChord, changeLong, setHit} from './existingElementsChange.js';
+import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
+import {testChord, testBoi} from './editor.js';
 
 let CLICK_LISTENERS = {
   '.change-mode': setModeToLine,
-  '.cycle': showPopup,
+  '.show': showPopup,
   '.closer': hidePopup,
   '[name="add-cycle"]': addCycle,
   '[name="rm-cycle"]': rmCycle,
@@ -15,6 +15,11 @@ let CLICK_LISTENERS = {
   '.play': testChord,
   '.ok': confirmChord,
   '.akkord [name="all"]': loadAllChords,
+  '[name="add-hit"]': addHit,
+  '[name="rm-hit"]': rmHit,
+  '.boi-long button': changeLong,
+  '.hit': setHit,
+  '[name="test"]': testBoi,
 };
 
 let FORCE_EVENTS = {
@@ -24,7 +29,7 @@ let FORCE_EVENTS = {
 let CLASSNAMES_OF_LISTENERS = {
   'line': [
     '.change-mode',
-    '.cycle',
+    '.show',
     '.closer',
     '[name="add-cycle"]',
     '[name="rm-cycle"]',
@@ -34,6 +39,12 @@ let CLASSNAMES_OF_LISTENERS = {
     '.play',
     '.ok',
     '.akkord [name="all"]',
+    '[name="create-boi"]',
+    '[name="add-hit"]',
+    '[name="rm-hit"]',
+    '.boi-long button',
+    '.hit',
+    '[name="test"]',
   ],
   'akkord': [
     '.closer',
@@ -49,6 +60,12 @@ let CLASSNAMES_OF_LISTENERS = {
     '.extend > div button',
     '.play',
   ],
+  'boi': [
+    '.closer',
+  ],
+  'hit': [
+    '.hit',
+  ]
 }
 
 function activateButtons(elem, cl){

@@ -68,6 +68,20 @@ function listApplicature(event){
   this.parentElement.querySelector('.applicature').innerHTML = numbers;
 }
 
+function changeLong(event){
+  let span = this.closest('.boi-long').querySelector('span');
+  let cur = +span.dataset.long;
+  if(this.name === '+'){
+    cur += 1;
+    cur = Math.min(cur, 16);
+  }else{
+    cur -= 1;
+    cur = Math.max(cur, 1);
+  }
+  span.dataset.long = cur;
+  span.innerHTML = cur;
+}
+
 function confirmChord(event){
   let cycle = this.closest('.cycle');
   let span = cycle.querySelector('.next-val');
@@ -79,5 +93,23 @@ function confirmChord(event){
       localStorage.getItem('applicatures'))[chord][option.dataset.index];
 }
 
+function setHit(event){
+  let bg = this.querySelector('.bg');
+  let area = this.closest('.create').querySelector('.area');
+  let dir = area.querySelector('[name="direction"]:checked');
+  let cov = area.querySelector('[name="cover"]:checked');
+  let cl1 = dir.parentElement.className;
+  let cl2 = cov.parentElement.className;
+  console.log(dir);
+  if (!(cl1 && cl2)){
+    cl1 = '';
+    cl2 = '';
+  }
+  this.className = `hit ${cl1}`;
+  bg.className = `bg ${cl2}`;
+  this.dataset.hit = `${dir.value}${cov.value}`;
+
+}
+
 export {setModeToLine, showPopup, hidePopup, changeBasetone, loadApplicature,
-        listApplicature, confirmChord};
+        listApplicature, confirmChord, changeLong, setHit};

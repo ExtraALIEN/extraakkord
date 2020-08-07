@@ -348,6 +348,27 @@ h2 {
   position: absolute;
   bottom: 0;
   right: 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.controls > *{
+  box-sizing: border-box;
+  height: 1.25rem;
+  flex-basis: 25%;
+  padding: 0;
+}
+
+.controls .show{
+  cursor: pointer;
+  font-size: .75rem;
+  line-height: 1.25rem;
+  text-align: center;
+  background-color: rgba(39, 133, 28, 0.5);
 }
 
 .cycle{
@@ -369,13 +390,10 @@ h2 {
   background-color: rgba(4, 255, 14, 0.1);
 }
 
+
+
 .vocals .cycle{
   background-color: rgba(255, 4, 245, 0.1);
-}
-
-.cell{
-  position: absolute;
-  z-index: 5;
 }
 
 .cell p{
@@ -483,7 +501,7 @@ h2 {
   background-color: #a5e3b6;
 }
 
-.cycle .popup.active{
+.cycle .popup.active, .controls .popup.active{
   position: absolute;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -491,17 +509,199 @@ h2 {
   margin: 0;
   padding: 0;
   top: 100%;
-  left: 25%;
+  left: 10%;
   border: .125rem solid #371a0c;
   width: 35vw;
   display: flex;
   flex-flow: column nowrap;
+  z-index: 5;
+}
+
+.controls .popup.active{
+  width: 50vw;
+  padding: 1.25rem;
 }
 
 .cycle .closer{
   top: 0;
   right: 0;
 }
+
+.boi-field{
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+
+.boi-field + .controls{
+  bottom: 2.25rem;
+}
+
+.boi-field .hit{
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(124, 115, 106, 0.1);
+  border: 1px solid #ffffff;
+  height: 1rem;
+  flex-grow: 1;
+  flex-basis: 12.5%;
+  max-width: 12.5%;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.boi .create .area{
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+}
+
+.area p{
+  flex-basis: 100%;
+  height: 1rem;
+  box-sizing: border-box;
+}
+
+.area > div{
+  width: 50%;
+  padding: .5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.area label{
+  flex-basis: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row nowrap;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+
+.hit{
+  position: relative;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+
+.hit .bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+
+.area input{
+  display: none;
+}
+
+.area span{
+  flex-basis: 80%;
+  text-align: left;
+  padding-left: 20%;
+}
+
+.area input:checked + span{
+  border: 1px solid #371a0c;
+  font-weight: bold;
+}
+
+.create .s{
+  background-image: url('/static/pic/hit/s.png');
+}
+
+.create .d{
+  background-image: url('/static/pic/hit/d.png');
+}
+
+.create .x{
+  background-image: url('/static/pic/hit/x.png');
+}
+
+.create .u{
+  background-image: url('/static/pic/hit/u.png');
+}
+
+.create .i{
+  background-image: url('/static/pic/hit/i.png');
+}
+
+.create .p{
+  background-image: url('/static/pic/hit/p.png');
+}
+
+.create .q{
+  background-image: url('/static/pic/hit/q.png');
+}
+.create .w{
+  background-image: url('/static/pic/hit/w.png');
+}
+.create .e{
+  background-image: url('/static/pic/hit/e.png');
+}
+
+.create .r{
+  background-image: url('/static/pic/hit/r.png');
+}
+
+.create .h{
+  background-image: url('/static/pic/hit/h.png');
+}
+
+.create .g{
+  background-image: url('/static/pic/hit/g.png');
+}
+
+.create .f{
+  background-image: url('/static/pic/hit/f.png');
+}
+
+.create .dd{
+  background-image: url('/static/pic/hit/dd.png');
+}
+
+.create .b{
+  background-image: url('/static/pic/hit/b.png');
+}
+.create .p1{
+  background-image: url('/static/pic/hit/1.png');
+}
+
+.create .p2{
+  background-image: url('/static/pic/hit/2.png');
+}
+
+.create .p3{
+  background-image: url('/static/pic/hit/3.png');
+}
+
+.create .p4{
+  background-image: url('/static/pic/hit/4.png');
+}
+
+.create .p5{
+  background-image: url('/static/pic/hit/5.png');
+}
+
+.create .p6{
+  background-image: url('/static/pic/hit/6.png');
+}
+
+
+
+
+
 
 @media screen and (max-height: 550px){
   html{
@@ -513,9 +713,29 @@ h2 {
   }
 }
 
+
+
+@media screen and (max-width: 1300px){
+  .cycle .popup.active{
+    width: 45vw;
+  }
+}
+
+@media screen and (max-width: 1050px){
+  .cycle .popup.active{
+    width: 55vw;
+  }
+}
+
 @media screen and (max-width: 900px){
   .add{
     width: 80%;
+  }
+}
+
+@media screen and (max-width: 850px){
+  .cycle .popup.active{
+    width: 65vw;
   }
 }
 
@@ -544,5 +764,9 @@ h2 {
 
   .center form label > *{
     flex-basis: 1rem;
+  }
+
+  .cycle .popup.active{
+    width: 75vw;
   }
 }
