@@ -1,4 +1,6 @@
 function postAjax(event){
+  console.log(event);
+  console.log(this);
   event.preventDefault();
   let options = {method: 'POST',
                  body: new FormData(event.target)};
@@ -14,7 +16,6 @@ function populateStatus(data){
     p.className = `ajax-${x}`;
     p.innerHTML = data[x];
     status.append(p);
-    console.log(p);
   }
 }
 

@@ -1,7 +1,7 @@
 import {otherChordsNames} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
 import {createSpecimen, getBlockCopy} from './dom.js';
-import {playChord} from './playback.js';
+import {playChord, playBoi} from './playback.js';
 
 let opener = document.getElementById('open');
 let editor = document.getElementById('editor');
@@ -33,11 +33,14 @@ function testChord(event){
   playChord(nums);
 }
 
-function testBoi(event){
-  let block = this.closest('.create');
+function buildBoiData(elem, save=false){
+  let block = elem.closest('.create');
   let hitElements = block.querySelectorAll('.boi-field .hit');
   let cycleLength = block.querySelector('[data-long]').dataset.long;
   let hits = [...hitElements].map(a=> a.dataset.hit).map(a=> a.length > 1? a: '00');
+  if (save){
+    return hits;
+  }
   let hitObj = {};
   for(let i=0; i< hits.length; i++){
     let h = hits[i];
@@ -49,7 +52,31 @@ function testBoi(event){
   let boi = {'divide': hits.length,
              'cycleLength': cycleLength,
             'hits': hitObj};
+  return boi;
+}
+
+function testBoi(event){
+  let boi = buildBoiData(this);
+  let testChords = {
+    'divide': 2,
+    'changes': { '1': {'name': 'Gm', 'signature': '3:5:5:3:3:3'},
+                 '2': {'name': 'A#', 'signature': '1:1:3:3:3:1'},
+               }
+  };
+  playBoi(110, 2, boi, testChords);
+}
+
+function saveBoi(event){
+  let code = buildBoiData(this, true).join('.');
+  let block = this.closest('.create');
+  let cycleLength = block.querySelector('[data-long]').dataset.long;
+  let name = block.querySelector('[name="boi-name"]').value;
+  let form = block.querySelector('form');
+  form.querySelector('[name="name"]').value = name;
+  form.querySelector('[name="cycle_length"]').value = cycleLength;
+  form.querySelector('[name="code"]').value = code;
+  form.dispatchEvent(new Event('submit', {cancelable: true}));
 }
 
 
-export {testChord, testBoi};
+export {testChord, testBoi, saveBoi};

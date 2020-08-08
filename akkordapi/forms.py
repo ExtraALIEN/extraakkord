@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.contrib.auth.models import User
-from akkordbase.models import Artist, Song, Pick
+from akkordbase.models import Artist, Song, Pick, Boi
 
 onlychars_validator = RegexValidator(regex=re.compile('^[a-z0-9_]*$',
                                      flags=re.I),
@@ -12,6 +12,13 @@ onlychars_validator = RegexValidator(regex=re.compile('^[a-z0-9_]*$',
                                      code='invalid',
                                      )
 
+charsspace_validator = RegexValidator(regex=re.compile('^[a-zа-яё0-9_ ]*$',
+                                     flags=re.I),
+                                     message='Допускаются только буквы \
+                                     латинского или русского алфавита, \
+                                     цифры, пробелы и символы _ ',
+                                     code='invalid',
+                                     )
 
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(max_length=20,
@@ -124,3 +131,40 @@ class AddPickForm(forms.Form):
         new_pick.song = song
         new_pick.save()
         return new_pick
+
+
+class AddBoiForm(forms.Form):
+    name = forms.CharField(required=False,
+                           widget=forms.HiddenInput,
+                           validators=[charsspace_validator])
+    code = forms.CharField(required=False,
+                           widget=forms.HiddenInput)
+    cycle_length = forms.IntegerField(required=False,
+                                      widget=forms.HiddenInput)
+
+    def clean_name(self):
+        input = self.cleaned_data['name']
+        if len(input) == 0:
+            self.add_error('name',
+                           forms.ValidationError(
+                            'Введите название боя'))
+        elif Boi.objects.filter(name=input).exists():
+            self.add_error('name',
+                           forms.ValidationError(
+                            f'{input} - такое название уже существует'))
+        return input
+
+    def clean(self):
+        cycle_length = self.cleaned_data['cycle_length']
+        code = self.cleaned_data['code']
+        if Boi.objects.filter(code=code, cycle_length=cycle_length).exists():
+            boi = Boi.objects.get(code=code, cycle_length=cycle_length)
+            self.add_error('code',
+                           forms.ValidationError(
+                            f'Бой с таким рисунком уже есть: {boi.name}'))
+        return self.cleaned_data
+
+    def save(self):
+        new_boi = Boi(**self.cleaned_data)
+        new_boi.save()
+        return new_boi

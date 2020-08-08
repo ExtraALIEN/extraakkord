@@ -1,4 +1,6 @@
 import {postAjax} from './ajax.js';
 
-let form = document.querySelector('.ajax');
-form.addEventListener('submit', postAjax);
+let forms = document.querySelectorAll('.ajax');
+for (let form of [...forms]){
+  form.addEventListener('submit', postAjax);
+}

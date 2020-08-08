@@ -9,8 +9,23 @@ let HIT_TYPES = {
   'i': 'u',
   'p': 'u',
   '0': 'd',
+};
 
-}
+let OFFSET_DIRECTIONS = {
+  'd': 'd',
+  'x': 'd',
+  'u': 'u',
+  's': 'd',
+  'i': 'u',
+  'p': 'p',
+  '0': 'd',
+};
+
+let DYNAMIC_OFFSET = {
+  'd': [0, 0.01, 0.02, 0.03, 0.04, 0.05],
+  'u': [0.05, 0.04, 0.03, 0.02, 0.01, 0],
+  'p': [0, 0, 0, 0, 0, 0],
+};
 
 let HIT_AREA = {
   '0': [],
@@ -29,7 +44,7 @@ let HIT_AREA = {
   'f': [0,1,2],
   'g': [0,1,2,3],
   'h': [0,1,2,3,4],
-}
+};
 
 let ctx = new AudioContext();
 let soundBank = createBuffer();
@@ -210,12 +225,12 @@ function test(event){
   //              }
   // };
 
-  let res = detectTimesOnFret(boi, 4, chords);
+
   //let res1 = detectTimesOnFret(boi1, 16, chords1);
   let now = ctx.currentTime;
-  let offset = now + 1;
-    createSoundSources(140, res, offset);
-    offset += soundDuration(140, 4, boi);
+
+
+
     createSoundSources(140, res, offset);
     offset += soundDuration(140, 4, boi);
     createSoundSources(140, res, offset);
@@ -224,6 +239,14 @@ function test(event){
     // offset += soundDuration(120, 16, boi1);
     // createSoundSources(120, res, offset);
     // offset += soundDuration(120, 4, boi);
+}
+
+function playBoi(bpm, cycles, boi, chords){
+  let data = detectTimesOnFret(boi, cycles, chords);
+  let now = ctx.currentTime;
+  let offset = now + 1;
+  createSoundSources(bpm, data, offset);
+  offset += soundDuration(bpm, cycles, boi);
 }
 
 function soundDuration(bpm, cycles, boi){
@@ -262,10 +285,11 @@ function createSoundSources(bpm, data, offset){
       pos[st] = t;
       let frTime = frets[st][t];
       let fr = data.frets[st][frTime];
-      let startTime = x*tick + offset;
-      let stopTime = startTime + .075;
+      let dyn = type === 'p' ? 0 : DYNAMIC_OFFSET[OFFSET_DIRECTIONS[type]][st];
+      let startTime = x*tick + offset + dyn;
+      let stopTime = startTime + .1 - dyn;
       if (type === 'i'){
-        stopTime = startTime + .3;
+        stopTime = startTime + .3 - dyn;
       }
       if(fr > -1){
         let node = createBufferSource(st, fr, type);
@@ -305,4 +329,4 @@ function nextPos(num, sortedArray, startPos){
   return pos - 1;
 }
 
-export {playChord};
+export {playChord, playBoi};

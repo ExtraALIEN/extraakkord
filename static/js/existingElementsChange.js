@@ -100,7 +100,6 @@ function setHit(event){
   let cov = area.querySelector('[name="cover"]:checked');
   let cl1 = dir.parentElement.className;
   let cl2 = cov.parentElement.className;
-  console.log(dir);
   if (!(cl1 && cl2)){
     cl1 = '';
     cl2 = '';

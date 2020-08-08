@@ -1,8 +1,33 @@
 <div class='boi' data-type='boi'>
   <div class='grid'>
     <div class='cycle show'>
+      <span class='next-val' data-chord='' data-applicature=''></span>
       <div class='cell popup'>
         <button type='button' class='closer' >X</button>
+        <p>Выбрать бой</p>
+        <div class='full'>
+          <div class='extend'>
+            <button class='option' type="button" name="m">Em</button>
+            <div>
+              <button type="button" name="-"><-</button>
+              <span class='applicature'></span>
+              <button type="button" name="+">-></button>
+            </div>
+            <button type="button" class='play' name="button">Play</button>
+            <button type="button" class='ok' name="button">OK</button>
+          </div>
+          <div class='extend'>
+            <button class='option' type="button" data-index='0' name="7">E7</button>
+            <div>
+              <button type="button" name="-"><-</button>
+              <span class='applicature'></span>
+              <button type="button" name="+">-></button>
+            </div>
+            <button type="button" class='play' name="button">Play</button>
+            <button type="button" class='ok' name="button">OK</button>
+          </div>
+          <button type="button" name="all">Показать все</button>
+        </div>
       </div>
     </div>
   </div>
@@ -60,12 +85,23 @@
           <button type="button" name="rm-hit">Удалить</button>
         </div>
         <div class="controls">
-          <button type="button" name="test">Прослушать</button>
+          <button type="button" name="test">Play(2 цикла)</button>
           <button type="button" name="save">Сохранить</button>
+          <div id='status' class='status'>
+          <!-- p class='ajax-info',  .... ajax-error -->
+          </div>
         </div>
+
+
+        <form class='ajax' method='POST' action={% url 'akkordapi:add_boi' %}>
+          {% csrf_token %}
+          {{boi_form}}
+        </form>
+
       </div>
 
     </div>
+
     <button type="button" name="add-cycle">Добавить циклы</button>
     <button type="button" name="rm-cycle">Удалить циклы</button>
   </div>

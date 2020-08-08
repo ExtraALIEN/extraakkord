@@ -135,3 +135,12 @@ class Comment(models.Model):
     votes_down = models.PositiveIntegerField(default=0)
     # voted_users =models.Manytomany
     text = models.TextField()
+
+
+class Boi(models.Model):
+    name = models.CharField(max_length=40)
+    code = models.TextField()
+    cycle_length = models.PositiveSmallIntegerField(default=4)
+
+    def __str__(self):
+        return self.name

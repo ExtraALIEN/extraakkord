@@ -1,7 +1,8 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
         loadApplicature, listApplicature, confirmChord, changeLong, setHit} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
-import {testChord, testBoi} from './editor.js';
+import {testChord, testBoi, saveBoi} from './editor.js';
+import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
   '.change-mode': setModeToLine,
@@ -20,6 +21,7 @@ let CLICK_LISTENERS = {
   '.boi-long button': changeLong,
   '.hit': setHit,
   '[name="test"]': testBoi,
+  '[name="save"]': saveBoi,
 };
 
 let FORCE_EVENTS = {
@@ -45,6 +47,7 @@ let CLASSNAMES_OF_LISTENERS = {
     '.boi-long button',
     '.hit',
     '[name="test"]',
+    '[name="save"]',
   ],
   'akkord': [
     '.closer',
