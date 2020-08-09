@@ -154,6 +154,14 @@ class AddBoiForm(forms.Form):
                             f'{input} - такое название уже существует'))
         return input
 
+    def clean_code(self):
+        input = self.cleaned_data['code']
+        if len(input) == 0:
+            self.add_error('name',
+                           forms.ValidationError(
+                            'Рисунок боя должен состоять хотя бы из 1 удара'))
+        return input
+
     def clean(self):
         cycle_length = self.cleaned_data['cycle_length']
         code = self.cleaned_data['code']

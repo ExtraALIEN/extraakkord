@@ -78,5 +78,40 @@ function saveBoi(event){
   form.dispatchEvent(new Event('submit', {cancelable: true}));
 }
 
+function listenBoi(event){
+  let hits = this.dataset.code.split('.');
+  let hitObj = {};
+  for(let i=0; i< hits.length; i++){
+    let h = hits[i];
+    if (!(h in hitObj)){
+      hitObj[h] = [];
+    }
+    hitObj[h].push(i+1);
+  }
+  let cycleLength = this.dataset.cycle;
+  let testChords = {
+    'divide': 2,
+    'changes': { '1': {'name': 'Gm', 'signature': '3:5:5:3:3:3'},
+                 '2': {'name': 'A#', 'signature': '1:1:3:3:3:1'},
+               }
+  };
+  let boi = {'divide': hits.length,
+             'cycleLength': cycleLength,
+            'hits': hitObj};
+  playBoi(110, 2, boi, testChords);
+}
 
-export {testChord, testBoi, saveBoi};
+function confirmBoi(event){
+  let block = this.closest('.extend');
+  let span = this.closest('.cycle').querySelector('.next-val');
+  let boiEl = block.querySelector('.play-boi');
+  let name = block.querySelector('div').innerHTML;
+  let code = boiEl.dataset.code;
+  let cycleLength = boiEl.dataset.cycle;
+  span.innerHTML = name;
+  span.dataset.code = code;
+  span.dataset.cycle = cycleLength;
+}
+
+
+export {testChord, testBoi, saveBoi, listenBoi, confirmBoi};

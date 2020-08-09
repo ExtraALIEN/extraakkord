@@ -1,7 +1,7 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
         loadApplicature, listApplicature, confirmChord, changeLong, setHit} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
-import {testChord, testBoi, saveBoi} from './editor.js';
+import {testChord, testBoi, saveBoi, listenBoi, confirmBoi} from './editor.js';
 import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
@@ -15,6 +15,8 @@ let CLICK_LISTENERS = {
   '.extend > div button': listApplicature,
   '.play': testChord,
   '.ok': confirmChord,
+  '.play-boi': listenBoi,
+  '.ok-boi': confirmBoi,
   '.akkord [name="all"]': loadAllChords,
   '[name="add-hit"]': addHit,
   '[name="rm-hit"]': rmHit,
@@ -48,6 +50,8 @@ let CLASSNAMES_OF_LISTENERS = {
     '.hit',
     '[name="test"]',
     '[name="save"]',
+    '.play-boi',
+    '.ok-boi',
   ],
   'akkord': [
     '.closer',
@@ -65,6 +69,8 @@ let CLASSNAMES_OF_LISTENERS = {
   ],
   'boi': [
     '.closer',
+    '.play-boi',
+    '.ok-boi',
   ],
   'hit': [
     '.hit',

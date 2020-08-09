@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.forms import ValidationError
-from .models import Artist, Song, Pick
+from .models import Artist, Song, Pick, Boi
 from .forms import SignupForm, LoginForm
 from akkordapi.forms import ChangePasswordForm, AddArtistForm, AddSongForm, AddPickForm, AddBoiForm
 
@@ -112,11 +112,13 @@ def add_pick(request, artist_name, song_name):
     the_song = get_object_or_404(Song, artist=the_artist, slug=song_name)
     form = AddPickForm()
     boi_form = AddBoiForm()
+    popular_bois = Boi.objects.alphabet_list()
     return render(request, 'akkordbase/add.html',
                   {'heading': f'{the_artist} - {the_song} - добавить подбор',
                    'form': form,
                    'boi_form': boi_form,
                    'view_url': 'akkordapi:add_pick',
                    'artist': the_artist,
-                   'song': the_song
+                   'song': the_song,
+                   'popular_bois': popular_bois
                    })

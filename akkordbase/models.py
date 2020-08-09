@@ -137,10 +137,16 @@ class Comment(models.Model):
     text = models.TextField()
 
 
+class BoiManager(models.Manager):
+    def alphabet_list(self):
+        return self.order_by('name')
+
+
 class Boi(models.Model):
     name = models.CharField(max_length=40)
     code = models.TextField()
     cycle_length = models.PositiveSmallIntegerField(default=4)
+    objects = BoiManager()
 
     def __str__(self):
-        return self.name
+        return f'{self.name}({self.cycle_length})'

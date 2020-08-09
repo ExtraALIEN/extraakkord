@@ -1,12 +1,22 @@
 <div class='boi' data-type='boi'>
   <div class='grid'>
     <div class='cycle show'>
-      <span class='next-val' data-chord='' data-applicature=''></span>
+      <span class='next-val' data-cycle='' data-code=''></span>
       <div class='cell popup'>
         <button type='button' class='closer' >X</button>
         <p>Выбрать бой</p>
         <div class='full'>
-          <div class='extend'>
+          {% for boi in popular_bois%}
+            <div class='extend'>
+              <div>{{boi}}</div>
+
+              <button type="button" class='play-boi'
+                      data-code={{boi.code}}
+                      data-cycle={{boi.cycle_length}} name="button">Play</button>
+              <button type="button" class='ok-boi' name="button">OK</button>
+            </div>
+          {% endfor %}
+          <!-- <div class='extend'>
             <button class='option' type="button" name="m">Em</button>
             <div>
               <button type="button" name="-"><-</button>
@@ -26,7 +36,7 @@
             <button type="button" class='play' name="button">Play</button>
             <button type="button" class='ok' name="button">OK</button>
           </div>
-          <button type="button" name="all">Показать все</button>
+          <button type="button" name="all">Показать все</button> -->
         </div>
       </div>
     </div>
