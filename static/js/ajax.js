@@ -1,6 +1,4 @@
 function postAjax(event){
-  console.log(event);
-  console.log(this);
   event.preventDefault();
   let options = {method: 'POST',
                  body: new FormData(event.target)};

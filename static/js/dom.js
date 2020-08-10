@@ -24,6 +24,7 @@ function addCycle(event){
   let cycle = getBlockCopy(blockType);
   block.querySelector('.grid').append(cycle);
   cycle.addEventListener('click', showPopup);
+  console.log(blockType);
   activateButtons(cycle, blockType);
 }
 

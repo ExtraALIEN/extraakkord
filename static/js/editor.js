@@ -113,5 +113,56 @@ function confirmBoi(event){
   span.dataset.cycle = cycleLength;
 }
 
+function playLine(event){
+  let line = this.closest('.line');
+  let boiCycles = line.querySelectorAll('.boi > .grid .next-val');
+  let lineBoi = buildLineBoi(boiCycles);
+  console.log(lineBoi);
+  let chordCycles = line.querySelectorAll('.akkord > .grid .next-val');
+  let lineChords = buildLineChords(chordCycles);
+  console.log(lineChords);
+  playBoi(110, 1, lineBoi, lineChords);
+}
 
-export {testChord, testBoi, saveBoi, listenBoi, confirmBoi};
+function buildLineBoi(elements){
+  let cycles = 0;
+  let lastCycles = 0;
+  let hitObj = {};
+  let lastHits = [];
+  for (let el of [...elements]){
+    if(el.dataset.cycle !== ''){
+      lastCycles = +el.dataset.cycle;
+    }
+    cycles += lastCycles;
+    if (lastCycles){
+      if (el.dataset.code !== ''){
+        lastHits = el.dataset.code.split('.');
+      }
+      let hitLength = lastCycles/(lastHits.length);
+      for(let i=0; i<lastHits.length; i++){
+        let h = lastHits[i];
+        if (!(h in hitObj)){
+          hitObj[h] = [];
+        }
+        hitObj[h].push((1 + i*hitLength + cycles - lastCycles));
+      }
+    }
+  }
+  return {'hits' :hitObj, 'cycleLength': cycles, 'divide': cycles};
+}
+
+function buildLineChords(elements){
+  let arr = [...elements];
+  let divide = arr.length;
+  let changes = {};
+  for (let i=0; i< arr.length; i++){
+    let chord = arr[i].dataset.chord;
+    if (chord !== ''){
+      changes[i+1] = {'name': chord, 'signature': arr[i].dataset.applicature};
+    }
+  }
+  return {'divide': divide, 'changes': changes};
+}
+
+
+export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine};

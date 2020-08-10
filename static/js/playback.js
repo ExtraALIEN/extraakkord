@@ -141,7 +141,7 @@ function detectTimesOnFret(boi, cycles, chords){
                 );
     hits = Object.assign(hits, newHits);
   }
-  console.log(boiHits);
+  console.log(boi, boiHits);
   return {'frets': board, 'hits': hits};
 }
 
@@ -257,7 +257,7 @@ function soundDuration(bpm, cycles, boi){
 //document.body.addEventListener('click', test);
 
 function createSoundSources(bpm, data, offset){
-  //console.log(data);
+  console.log(data);
   let pos = [0,0,0,0,0,0];
   let tick = 60 / bpm;
   let hits = Object.fromEntries(
@@ -272,6 +272,7 @@ function createSoundSources(bpm, data, offset){
   let playedBass = false;
   let lastBass = -1;
   for(let x of Object.keys(hits).map(Number).sort((a,b)=> a-b)){
+    console.log(x);
     let type = hits[x][0];
     let area = hits[x][1];
     if (area in HIT_AREA){
@@ -283,7 +284,9 @@ function createSoundSources(bpm, data, offset){
     for(let st of range){
       let t = nextPos(x, frets[st], pos[st]);
       pos[st] = t;
+      console.log(st, t);
       let frTime = frets[st][t];
+      console.log(frTime);
       let fr = data.frets[st][frTime];
       let dyn = type === 'p' ? 0 : DYNAMIC_OFFSET[OFFSET_DIRECTIONS[type]][st];
       let startTime = x*tick + offset + dyn;
@@ -319,6 +322,7 @@ function createSoundSources(bpm, data, offset){
 }
 
 function nextPos(num, sortedArray, startPos){
+  console.log(num, sortedArray);
   let pos = startPos;
   while(num >= sortedArray[pos]){
     pos++;

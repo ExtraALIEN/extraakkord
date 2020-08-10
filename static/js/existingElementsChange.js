@@ -35,7 +35,7 @@ function changeBasetone(event){
 }
 
 function loadApplicature(event){
-  let currentTone = this.closest('[data-type]').querySelector('.val').innerHTML;
+  let currentTone = this.closest('.cell').querySelector('.val').innerHTML;
   if (!('applicatures' in localStorage)){
     localStorage.setItem('applicatures', JSON.stringify({}));
   }
@@ -51,7 +51,7 @@ function loadApplicature(event){
 }
 
 function listApplicature(event){
-  let currentTone = this.closest('[data-type]').querySelector('.val').innerHTML;
+  let currentTone = this.closest('.cell').querySelector('.val').innerHTML;
   let chordBtn = this.closest('.extend').querySelector('.option');
   let locApplicatures = JSON.parse(localStorage.getItem('applicatures'));
   let chord = `${currentTone}${chordBtn.name}`;

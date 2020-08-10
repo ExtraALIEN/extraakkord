@@ -1,7 +1,7 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
         loadApplicature, listApplicature, confirmChord, changeLong, setHit} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
-import {testChord, testBoi, saveBoi, listenBoi, confirmBoi} from './editor.js';
+import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine} from './editor.js';
 import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
@@ -24,6 +24,7 @@ let CLICK_LISTENERS = {
   '.hit': setHit,
   '[name="test"]': testBoi,
   '[name="save"]': saveBoi,
+  '.play-line': playLine
 };
 
 let FORCE_EVENTS = {
@@ -52,6 +53,7 @@ let CLASSNAMES_OF_LISTENERS = {
     '[name="save"]',
     '.play-boi',
     '.ok-boi',
+    '.play-line',
   ],
   'akkord': [
     '.closer',
