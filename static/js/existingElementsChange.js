@@ -110,5 +110,25 @@ function setHit(event){
 
 }
 
+function activateNote(event){
+  let roll = this.closest('.roll');
+  roll.querySelector('.active').classList.remove('active');
+  this.classList.add('active');
+}
+
+function changeOctave(event){
+  let span = this.closest('.octave').querySelector('.notation');
+  let cur = +span.dataset.octave;
+  if(this.name === '+'){
+    cur += 1;
+    cur = Math.min(cur, 6);
+  }else{
+    cur -= 1;
+    cur = Math.max(cur, 2);
+  }
+  span.dataset.octave = cur;
+  span.innerHTML = cur;
+}
+
 export {setModeToLine, showPopup, hidePopup, changeBasetone, loadApplicature,
-        listApplicature, confirmChord, changeLong, setHit};
+        listApplicature, confirmChord, changeLong, setHit, activateNote, changeOctave};

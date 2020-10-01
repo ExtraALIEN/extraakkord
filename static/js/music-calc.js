@@ -233,4 +233,9 @@ function otherChordsNames(){
   return Object.keys(CHORD_SEMITONES).filter( a=> !(['','m','7'].includes(a)));
 }
 
-export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames};
+function noteToHz(octave, note){
+  let deltaSemitones = octave*12 + note - 57; // a4 440Hz
+  return 440 * ((2**(1/12))**(deltaSemitones));
+}
+
+export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames, noteToHz};

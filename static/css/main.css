@@ -735,7 +735,42 @@ h2 {
 
 }
 
+.roll {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-basis: 100%;
+  width: 100%;
+  align-items: center;
+}
 
+.roll > div{
+  flex-basis: 1.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.roll .note{
+  width: 12%;
+  height: 1rem;
+  box-sizing: border-box;
+  background-color: #fdfdfd;
+  border-radius: 0;
+  border: .0625rem solid black;
+  cursor: pointer;
+}
+
+.black .note{
+  background-color: #cecece;
+}
+
+.note.empty{
+  visibility: hidden;
+}
+
+.note.active{
+  border-width: .125rem;
+  background-color: rgba(255, 4, 245, 0.1);
+}
 
 
 

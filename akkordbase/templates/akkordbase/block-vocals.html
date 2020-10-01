@@ -1,0 +1,64 @@
+<div class='vocals' data-type='vocals'>
+  <div class='grid'>
+    <div class='cycle show'>
+
+      <div class='cell popup'>
+        <button type='button' class='closer' >X</button>
+        <p>Нота</p>
+        <div class='full'>
+            <div class='roll'>
+              <div class='black'>
+                <button type='button' class='note' data-note='1'>c#</button>
+                <button type='button' class='note' data-note='3'>d#</button>
+                <button class='note empty'></button>
+                <button type='button' class='note' data-note='6'>f#</button>
+                <button type='button' class='note' data-note='8'>g#</button>
+                <button type='button' class='note' data-note='10'>a#</button>
+              </div>
+              <div class='white'>
+                <button type='button' class='note' data-note='0'>c</button>
+                <button type='button' class='note' data-note='2'>d</button>
+                <button type='button' class='note' data-note='4'>e</button>
+                <button type='button' class='note' data-note='5'>f</button>
+                <button type='button' class='note' data-note='7'>g</button>
+                <button type='button' class='note' data-note='9'>a</button>
+                <button type='button' class='note' data-note='11'>h</button>
+              </div>
+              <div class='pause'>
+                <button type='button' class='note active' data-note='-1'>_</button>
+              </div>
+            </div>
+            <div class='extend octave'>
+              <div>
+                <span>Октава</span>
+              </div>
+              <button type="button" name="-">-</button>
+              <span class='notation' data-octave='4'>4</span>
+              <button type="button" name="+">+</button>
+            </div>
+            <div class='duration'>
+              <div>
+                <span>Длительность</span>
+                <button type="button" name="-">-</button>
+                <span class='val' data-upper='1' data-lower='4'>1/4</span>
+                <button type="button" name="+">+</button>
+              </div>
+              <div>
+                <span class='step' data-upper='1' data-lower='4'>(Шаг: 1/4)</span>
+                <button type="button" name="/">/2</button>
+                <button type="button" name="*">*2</button>
+              </div>
+
+            </div>
+            <button type="button" class='play-note'
+                    name="button">Play</button>
+            <button type="button" class='ok-note' name="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='controls'>
+    <button type="button" name="add-cycle">Добавить ноту</button>
+    <button type="button" name="rm-cycle">Удалить ноту</button>
+  </div>
+</div>

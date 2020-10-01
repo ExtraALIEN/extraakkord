@@ -1,7 +1,8 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
-        loadApplicature, listApplicature, confirmChord, changeLong, setHit} from './existingElementsChange.js';
+        loadApplicature, listApplicature, confirmChord, changeLong, setHit,
+        activateNote, changeOctave} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
-import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine} from './editor.js';
+import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote} from './editor.js';
 import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
@@ -24,7 +25,10 @@ let CLICK_LISTENERS = {
   '.hit': setHit,
   '[name="test"]': testBoi,
   '[name="save"]': saveBoi,
-  '.play-line': playLine
+  '.play-line': playLine,
+  '.roll .note': activateNote,
+  '.octave button': changeOctave,
+  '.play-note': listenNote,
 };
 
 let FORCE_EVENTS = {
@@ -54,6 +58,9 @@ let CLASSNAMES_OF_LISTENERS = {
     '.play-boi',
     '.ok-boi',
     '.play-line',
+    '.roll .note',
+    '.octave button',
+    '.play-note',
   ],
   'akkord': [
     '.closer',
@@ -76,10 +83,17 @@ let CLASSNAMES_OF_LISTENERS = {
   ],
   'hit': [
     '.hit',
+  ],
+  'vocals':[
+    '.closer',
+    '.roll .note',
+    '.octave button',
+    '.play-note',
   ]
 }
 
 function activateButtons(elem, cl){
+  console.log(elem);
   let necessaryListeners = CLASSNAMES_OF_LISTENERS[cl];
   for (let selector of necessaryListeners){
     for (let x of [...elem.querySelectorAll(selector)]){

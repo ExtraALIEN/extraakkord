@@ -1,7 +1,7 @@
 import {otherChordsNames} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
 import {createSpecimen, getBlockCopy} from './dom.js';
-import {playChord, playBoi} from './playback.js';
+import {playChord, playBoi, playNote} from './playback.js';
 
 let opener = document.getElementById('open');
 let editor = document.getElementById('editor');
@@ -13,7 +13,7 @@ let addLineButton = document.getElementById('add-line');
 addLineButton.addEventListener('click', addLine);
 let firstLine = document.querySelector('.line');
 createSpecimen(firstLine, 'line');
-for (let x of ['akkord', 'boi']){
+for (let x of ['akkord', 'boi', 'vocals']){
   let smpCycle = document.querySelector(`.${x} .cycle`);
   createSpecimen(smpCycle, x);
 }
@@ -164,5 +164,14 @@ function buildLineChords(elements){
   return {'divide': divide, 'changes': changes};
 }
 
+function listenNote(event){
+  let block = this.closest('.full');
+  let octave = +block.querySelector('.notation').dataset.octave;
+  let note = +block.querySelector('.note.active').dataset.note;
+  let durElem = block.querySelector('.duration .val');
+  let ticks = (+durElem.dataset.upper / +durElem.dataset.lower) * 4;
+  playNote(110, ticks ,octave, note);
+}
 
-export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine};
+
+export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote};

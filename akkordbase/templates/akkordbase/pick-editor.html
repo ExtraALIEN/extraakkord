@@ -16,20 +16,7 @@
           <input class='text' placeholder='Добавьте текст строки песни сюда'></>
           {% include './block-akkord.html' %}
           {% include './block-boi.html' %}
-          </div>
-          <div class='vocals'>
-            <div class='grid'>
-              <div class='cycle'>
-                <div class='cell popup'>
-                  <button type='button' class='closer' >X</button>
-                </div>
-              </div>
-            </div>
-            <div class='controls'>
-              <button type="button" name="add-cycle">Добавить циклы</button>
-              <button type="button" name="rm-cycle">Удалить циклы</button>
-            </div>
-          </div>
+          {% include './block-vocals.html' %}
         </div>
         <div class='mode'>
           <button class='change-mode active' type="button" name="text">Текст</button>
@@ -39,5 +26,4 @@
         </div>
       </div>
     </div>
-  </div>
 </section>

@@ -1,4 +1,4 @@
-import {fretToHz, fretOffset} from './music-calc.js';
+import {fretToHz, fretOffset, noteToHz} from './music-calc.js';
 import {ober} from './obertones.js';
 
 let HIT_TYPES = {
@@ -50,15 +50,14 @@ let ctx = new AudioContext();
 let soundBank = createBuffer();
 let cur = [0,0,0,0,0,0];
 
-
-function createOsc(freq){
+function createOsc(freq, offset){
   let real = new Float32Array(ober.real);
   let imag = new Float32Array(ober.imag);
   let table = ctx.createPeriodicWave(real, imag);
   let oscillator = ctx.createOscillator();
   oscillator.setPeriodicWave(table);
-  oscillator.frequency.value = freq;
   oscillator.connect(ctx.destination);
+  oscillator.frequency.setValueAtTime(freq, offset);
   return oscillator;
 }
 
@@ -145,101 +144,6 @@ function detectTimesOnFret(boi, cycles, chords){
   return {'frets': board, 'hits': hits};
 }
 
-function test(event){
-  // let boi = {
-  //   'divide': 8,
-  //   'cycleLength': 4,
-  //   'hits': {'d': [3,7],
-  //            's': [1,],
-  //            'u': [4,6,8]}
-  // };
-
-  // let boi = {
-  //   'divide': 16,
-  //   'cycleLength': 4,
-  //   'hits': {'de': [5,13],
-  //            'dh': [7,15],
-  //            'sg': [1,3,11],
-  //            'uh': [8,10,12,]}
-  // };
-  //
-
-  let boi = {
-    'divide': 32,
-    'cycleLength': 8,
-    'hits': {'xz': [7, 15, 23, 31],
-             'sh': [1, 11, 27],
-             'sz': [3],
-             'ue': [9, 13, 25, 29],
-             'uh': [2],
-             'iw': [17, 21]}
-  };
-
-  let boi1 = {
-    'divide': 6,
-    'cycleLength': 2,
-    'hits': {'pb': [1],
-             'p3': [2,6],
-             'p2': [3,5],
-             'p1': [4]
-           }
-  };
-  //
-  // let boi = {
-  //   'divide': 3,
-  //   'cycleLength': 1,
-  //   'hits': {'pb': [1],
-  //            'pe': [2,3],
-  //          }
-  // };
-
-  // let boi = {
-  //   'divide': 4,
-  //   'cycleLength': 2,
-  //   'hits': {'down': [1,2,4,]}
-  // };
-
-  let chords1 = {
-    'divide': 8,
-    'changes': { '1': {'name': 'Am', 'signature': 'x:0:2:2:1:0'},
-                 '3': {'name': 'G', 'signature': '3:2:0:0:3:3'},
-                 '5': {'name': 'Dm', 'signature': 'x:x:0:2:3:1'},
-                 '7': {'name': 'E', 'signature': '0:2:2:1:0:0'},
-                 '8': {'name': 'F', 'signature': '1:3:3:2:1:1'},
-               }
-  };
-  let chords = {
-    'divide': 16,
-    'changes': { '1': {'name': 'Em', 'signature': '0:2:2:0:0:0'},
-                 '5': {'name': 'D', 'signature': 'x:x:0:2:3:2'},
-                 '9': {'name': 'Hm', 'signature': 'x:2:4:4:3:2'},
-                 '13': {'name': 'C', 'signature': 'x:3:5:5:5:3'},
-                 '15': {'name': 'Am', 'signature': 'x:0:2:2:1:0'},
-                 '16': {'name': 'D', 'signature': 'x:x:0:2:3:2'},
-               }
-  };
-
-  // let chords = {
-  //   'divide': 4,
-  //   'changes': { '1': {'name': 'Em', 'signature': '0:2:2:0:0:0'},
-  //              }
-  // };
-
-
-  //let res1 = detectTimesOnFret(boi1, 16, chords1);
-  let now = ctx.currentTime;
-
-
-
-    createSoundSources(140, res, offset);
-    offset += soundDuration(140, 4, boi);
-    createSoundSources(140, res, offset);
-    offset += soundDuration(140, 4, boi);
-    // createSoundSources(120, res1, offset);
-    // offset += soundDuration(120, 16, boi1);
-    // createSoundSources(120, res, offset);
-    // offset += soundDuration(120, 4, boi);
-}
 
 function playBoi(bpm, cycles, boi, chords){
   let data = detectTimesOnFret(boi, cycles, chords);
@@ -333,4 +237,17 @@ function nextPos(num, sortedArray, startPos){
   return pos - 1;
 }
 
-export {playChord, playBoi};
+function playNote(bpm, ticks, octave, note){
+  console.log(bpm, ticks);
+  let now = ctx.currentTime;
+  let offset = now + .2;
+  let duration = ticks * (60/bpm);
+  if(note >= 0){
+    let freq = noteToHz(octave, note);
+    let voc = createOsc(freq, offset);
+    voc.start(offset);
+    voc.stop(offset + duration);
+  }
+}
+
+export {playChord, playBoi, playNote};
