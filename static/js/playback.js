@@ -47,6 +47,12 @@ let HIT_AREA = {
 };
 
 let ctx = new AudioContext();
+let vocalsGain = ctx.createGain();
+vocalsGain.gain.value = .25;
+vocalsGain.connect(ctx.destination);
+let guitarGain = ctx.createGain();
+guitarGain.gain.value = 1;
+guitarGain.connect(ctx.destination);
 let soundBank = createBuffer();
 let cur = [0,0,0,0,0,0];
 
@@ -56,7 +62,7 @@ function createOsc(freq, offset){
   let table = ctx.createPeriodicWave(real, imag);
   let oscillator = ctx.createOscillator();
   oscillator.setPeriodicWave(table);
-  oscillator.connect(ctx.destination);
+  oscillator.connect(vocalsGain);
   oscillator.frequency.setValueAtTime(freq, offset);
   return oscillator;
 }
@@ -87,7 +93,7 @@ function createBufferSource(st, fr, type='d'){
   node.connect(gain);
   node.gainControl = gain;
   gain.gain.value = .25;
-  gain.connect(ctx.destination);
+  gain.connect(guitarGain);
   return node;
   //node.stop(4.1);
 }
@@ -145,10 +151,9 @@ function detectTimesOnFret(boi, cycles, chords){
 }
 
 
-function playBoi(bpm, cycles, boi, chords){
+function playBoi(bpm, cycles, boi, chords, startTime){
   let data = detectTimesOnFret(boi, cycles, chords);
-  let now = ctx.currentTime;
-  let offset = now + 1;
+  let offset = startTime + 1;
   createSoundSources(bpm, data, offset);
   offset += soundDuration(bpm, cycles, boi);
 }
@@ -161,7 +166,7 @@ function soundDuration(bpm, cycles, boi){
 //document.body.addEventListener('click', test);
 
 function createSoundSources(bpm, data, offset){
-  console.log(data);
+  //console.log(data);
   let pos = [0,0,0,0,0,0];
   let tick = 60 / bpm;
   let hits = Object.fromEntries(
@@ -176,7 +181,7 @@ function createSoundSources(bpm, data, offset){
   let playedBass = false;
   let lastBass = -1;
   for(let x of Object.keys(hits).map(Number).sort((a,b)=> a-b)){
-    console.log(x);
+    //console.log(x);
     let type = hits[x][0];
     let area = hits[x][1];
     if (area in HIT_AREA){
@@ -188,9 +193,9 @@ function createSoundSources(bpm, data, offset){
     for(let st of range){
       let t = nextPos(x, frets[st], pos[st]);
       pos[st] = t;
-      console.log(st, t);
+      //console.log(st, t);
       let frTime = frets[st][t];
-      console.log(frTime);
+      //console.log(frTime);
       let fr = data.frets[st][frTime];
       let dyn = type === 'p' ? 0 : DYNAMIC_OFFSET[OFFSET_DIRECTIONS[type]][st];
       let startTime = x*tick + offset + dyn;
@@ -226,7 +231,6 @@ function createSoundSources(bpm, data, offset){
 }
 
 function nextPos(num, sortedArray, startPos){
-  console.log(num, sortedArray);
   let pos = startPos;
   while(num >= sortedArray[pos]){
     pos++;
@@ -237,8 +241,27 @@ function nextPos(num, sortedArray, startPos){
   return pos - 1;
 }
 
+function createVocalsSoundSource(note, octave, startTime, duration){
+  let freq = noteToHz(octave, note);
+  let osc = createOsc(freq, startTime);
+  osc.start(startTime);
+  osc.stop(startTime + duration);
+
+}
+
+function playVocals(bpm, notes, startTime){
+  let offset = startTime + 1;
+  for (let x of notes){
+    let [note, octave, upper, lower] = x;
+    let duration = soundDuration(bpm, upper * 4 / lower, {cycleLength: 1});
+    if (octave > -1){
+      createVocalsSoundSource(note, octave, offset, duration);
+    }
+    offset += duration;
+  }
+}
+
 function playNote(bpm, ticks, octave, note){
-  console.log(bpm, ticks);
   let now = ctx.currentTime;
   let offset = now + .2;
   let duration = ticks * (60/bpm);
@@ -250,4 +273,4 @@ function playNote(bpm, ticks, octave, note){
   }
 }
 
-export {playChord, playBoi, playNote};
+export {playChord, playBoi, playNote, playVocals, ctx};

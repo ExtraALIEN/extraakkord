@@ -772,7 +772,19 @@ h2 {
   background-color: rgba(255, 4, 245, 0.1);
 }
 
+.duration{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 1.5rem;
+}
 
+.count{
+  position: absolute;
+  bottom: 0;
+  left: 1ex;
+}
 
 
 @media screen and (max-height: 550px){
@@ -839,7 +851,7 @@ h2 {
     height: 2.25rem;
   }
 
-  .line .display.akkord .akkord, .line .display.boi .boi, .line .display.vocals .vocals{
+  .line .display.akkord .akkord, .line .display.boi .boi, .line .display.vocals .vocals, .duration{
     padding-bottom: 2.25rem;
   }
 }

@@ -54,6 +54,22 @@ const CHORD_SEMITONES = {
 
 const STRING_OFFSET = [0, 5, 10, 15, 19, 24];
 
+const NOTE_NUMBERS = {
+  'c': 0,
+  'c#': 1,
+  'd': 2,
+  'd#': 3,
+  'e': 4,
+  'f': 5,
+  'f#': 6,
+  'g': 7,
+  'g#': 8,
+  'a': 9,
+  'a#': 10,
+  'h': 11,
+  '_': -1,
+}
+
 function detectApplicature(base, signature){
   let baseResults = new Set();
   let results = new Set();
@@ -238,4 +254,10 @@ function noteToHz(octave, note){
   return 440 * ((2**(1/12))**(deltaSemitones));
 }
 
-export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames, noteToHz};
+function readNote(code){
+  let [note, octave, upper, lower] = code.split('*');
+  return [NOTE_NUMBERS[note], +octave, +upper, +lower];
+}
+
+export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames,
+        noteToHz, readNote};

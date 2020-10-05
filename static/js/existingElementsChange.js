@@ -1,5 +1,7 @@
 import {activateButtons} from './eventListeners.js';
 import {adjacentTone, detectApplicature} from './music-calc.js';
+import {fractureSum} from './utils.js';
+
 
 function setModeToLine(event){
   let newMode = this.name;
@@ -112,8 +114,13 @@ function setHit(event){
 
 function activateNote(event){
   let roll = this.closest('.roll');
-  roll.querySelector('.active').classList.remove('active');
-  this.classList.add('active');
+  let cur = roll.querySelector('.active');
+  if (this === cur){
+    this.closest('.full').querySelector('.play-note').dispatchEvent(new Event('click'));
+  }else {
+    cur.classList.remove('active');
+    this.classList.add('active');
+  }
 }
 
 function changeOctave(event){
@@ -130,5 +137,67 @@ function changeOctave(event){
   span.innerHTML = cur;
 }
 
+function changeStep(event){
+  let span = this.closest('.duration').querySelector('.step');
+  let step = span.dataset.lower;
+  let k = 2;
+  if (this.name === '/'){
+    step *= k;
+    step = Math.min(step, 32);
+  } else {
+    step /= k;
+    step = Math.max(step, 1);
+  }
+  span.dataset.lower = step;
+  span.innerHTML = `(Шаг: ${span.dataset.upper}/${span.dataset.lower})`;
+}
+
+function changeDuration(event){
+  let block = this.closest('.duration');
+  let span = block.querySelector('.step');
+  let val = block.querySelector('.val');
+  let [durUpper, durLower] = [+val.dataset.upper, +val.dataset.lower];
+  let [stepUpper, stepLower] = [+span.dataset.upper, +span.dataset.lower];
+  if (this.name === '-'){
+    stepUpper *= -1;
+  }
+  let sum = fractureSum([durUpper, durLower], [stepUpper, stepLower]);
+  val.dataset.upper = sum[0];
+  val.dataset.lower = sum[1];
+  val.innerHTML = `${val.dataset.upper}/${val.dataset.lower}`;
+}
+
+function reloadTotalDuration(elem, type){
+  if (!(['vocals', 'boi'].includes(type))){
+    return;
+  }
+  let grid = elem.closest('.grid');
+  let cycles = grid.querySelectorAll('.cycle .next-val');
+  let durations = [[0, 4]];
+  let last = 0;
+  for (let x of [...cycles]){
+    let upper = 0;
+    let lower = 4;
+    if (type === 'vocals'){
+      if (x.dataset.code){
+        let code = x.dataset.code.split('*');
+        [ , , upper, lower] = [ , , +code[2], +code[3]];
+      }
+    } else if (type === 'boi'){
+      if (x.dataset.cycle){
+        upper = +x.dataset.cycle;
+        last = upper;
+      } else {
+        upper = last;
+      }
+    }
+    durations.push([upper, lower]);
+  }
+  let result = durations.reduce((acc,cur) => fractureSum(acc,cur), [0,4]);
+  let count = result[0] * 4 / result[1];
+  grid.parentElement.querySelector('.count span').innerHTML = `${count}/4`;
+}
+
 export {setModeToLine, showPopup, hidePopup, changeBasetone, loadApplicature,
-        listApplicature, confirmChord, changeLong, setHit, activateNote, changeOctave};
+        listApplicature, confirmChord, changeLong, setHit, activateNote,
+        changeOctave, changeStep, changeDuration, reloadTotalDuration};

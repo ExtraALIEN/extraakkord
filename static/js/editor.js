@@ -1,7 +1,8 @@
-import {otherChordsNames} from './music-calc.js';
+import {otherChordsNames, readNote} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
 import {createSpecimen, getBlockCopy} from './dom.js';
-import {playChord, playBoi, playNote} from './playback.js';
+import {playChord, playBoi, playNote, playVocals, ctx} from './playback.js';
+import {reloadTotalDuration} from './existingElementsChange.js';
 
 let opener = document.getElementById('open');
 let editor = document.getElementById('editor');
@@ -63,7 +64,8 @@ function testBoi(event){
                  '2': {'name': 'A#', 'signature': '1:1:3:3:3:1'},
                }
   };
-  playBoi(110, 2, boi, testChords);
+  let startTime = ctx.currentTime;
+  playBoi(110, 2, boi, testChords, startTime);
 }
 
 function saveBoi(event){
@@ -98,7 +100,8 @@ function listenBoi(event){
   let boi = {'divide': hits.length,
              'cycleLength': cycleLength,
             'hits': hitObj};
-  playBoi(110, 2, boi, testChords);
+  let startTime = ctx.currentTime;
+  playBoi(110, 2, boi, testChords, startTime);
 }
 
 function confirmBoi(event){
@@ -111,18 +114,27 @@ function confirmBoi(event){
   span.innerHTML = name;
   span.dataset.code = code;
   span.dataset.cycle = cycleLength;
+  reloadTotalDuration(this, 'boi');
 }
 
 function playLine(event){
   let line = this.closest('.line');
   let boiCycles = line.querySelectorAll('.boi > .grid .next-val');
   let lineBoi = buildLineBoi(boiCycles);
-  console.log(lineBoi);
+  //console.log(lineBoi);
   let chordCycles = line.querySelectorAll('.akkord > .grid .next-val');
   let lineChords = buildLineChords(chordCycles);
-  console.log(lineChords);
-  playBoi(110, 1, lineBoi, lineChords);
+  //console.log(lineChords);
+  let vocalsElems = line.querySelectorAll('.vocals > .grid .next-val');
+  let vocals = [...vocalsElems].filter(a => a.dataset.code)
+                               .map(a => readNote(a.dataset.code));
+  console.log(vocals);
+  let startTime = ctx.currentTime;
+  playBoi(110, 1, lineBoi, lineChords, startTime);
+  playVocals(110, vocals, startTime);
 }
+
+
 
 function buildLineBoi(elements){
   let cycles = 0;
@@ -148,7 +160,7 @@ function buildLineBoi(elements){
       }
     }
   }
-  return {'hits' :hitObj, 'cycleLength': cycles, 'divide': cycles};
+  return {'hits': hitObj, 'cycleLength': cycles, 'divide': cycles};
 }
 
 function buildLineChords(elements){
@@ -173,5 +185,23 @@ function listenNote(event){
   playNote(110, ticks ,octave, note);
 }
 
+function confirmNote(event){
+  let block = this.closest('.cycle');
+  let span = block.querySelector('.next-val');
+  let noteEl = block.querySelector('.note.active');
+  let note = noteEl.innerHTML;
+  let octave = block.querySelector('.notation').dataset.octave;
+  if (note === '_'){
+    octave = '-1';
+  }
+  let duration = block.querySelector('.duration .val');
+  span.dataset.code = `${note}*${octave}*${duration.dataset.upper}*${duration.dataset.lower}`;
+  span.innerHTML = `${note !== '_' ? note : '--'}${octave >=0 ? octave : ''}  ${duration.dataset.upper}/${duration.dataset.lower}`;
+  reloadTotalDuration(this, 'vocals');
+  let clone = block.cloneNode(true);
+  clone.querySelector('.popup.active').classList.remove('active');
+  createSpecimen(clone, 'vocals');
+}
 
-export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote};
+
+export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote, confirmNote};

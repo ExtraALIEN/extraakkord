@@ -1,6 +1,6 @@
 import {otherChordsNames} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
-import {showPopup} from './existingElementsChange.js';
+import {showPopup, reloadTotalDuration} from './existingElementsChange.js';
 
 let CYCLE_TYPES = {
   'line': 'sampleLine',
@@ -25,13 +25,17 @@ function addCycle(event){
   block.querySelector('.grid').append(cycle);
   cycle.addEventListener('click', showPopup);
   activateButtons(cycle, blockType);
+  reloadTotalDuration(block.querySelector('.grid'), blockType);
 }
 
 function rmCycle(event){
+  let block = this.closest('[data-type]');
+  let blockType = block.dataset.type;
   let grid = this.closest('[data-type]').querySelector('.grid');
   let last = grid.lastChild;
   if (last){
     last.remove();
+    reloadTotalDuration(grid, blockType);
   }
 }
 
