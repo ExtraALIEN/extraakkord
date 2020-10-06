@@ -18,6 +18,27 @@ function getBlockCopy(storage){
   return document.body[CYCLE_TYPES[storage]].cloneNode(true);
 }
 
+function addLine(event){
+  let board = this.closest('.board');
+  let line = getBlockCopy('line');
+  activateButtons(line, 'line');
+  board.append(line);
+}
+
+function paste(event){
+  let board = this.closest('.board');
+  let buffer = [];
+  for (let x of [...board.querySelectorAll('.line.to-copy')]){
+    let cp = x.cloneNode(true);
+    cp.classList.remove('to-copy');
+    activateButtons(cp, 'line');
+    buffer.push(cp);
+  }
+  for (let x of buffer){
+    board.append(x);
+  }
+}
+
 function addCycle(event){
   let block = this.closest('[data-type]');
   let blockType = block.dataset.type;
@@ -69,4 +90,10 @@ function loadAllChords(event){
   }
 }
 
-export {addCycle, rmCycle, loadAllChords, createSpecimen, getBlockCopy, addHit, rmHit};
+function removeLine(event){
+  let line = this.closest('.line');
+  line.remove();
+}
+
+export {addCycle, rmCycle, loadAllChords, createSpecimen, getBlockCopy, addHit,
+        rmHit, removeLine, addLine, paste};

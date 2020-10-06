@@ -198,6 +198,11 @@ function reloadTotalDuration(elem, type){
   grid.parentElement.querySelector('.count span').innerHTML = `${count}/4`;
 }
 
+function toggleCopyLine(event){
+  let line = this.closest('.line');
+  line.classList.toggle('to-copy');
+}
+
 export {setModeToLine, showPopup, hidePopup, changeBasetone, loadApplicature,
         listApplicature, confirmChord, changeLong, setHit, activateNote,
-        changeOctave, changeStep, changeDuration, reloadTotalDuration};
+        changeOctave, changeStep, changeDuration, reloadTotalDuration, toggleCopyLine};

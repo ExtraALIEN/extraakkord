@@ -1,8 +1,9 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
         loadApplicature, listApplicature, confirmChord, changeLong, setHit,
-        activateNote, changeOctave, changeStep, changeDuration} from './existingElementsChange.js';
-import {addCycle, rmCycle, loadAllChords, addHit, rmHit} from './dom.js';
-import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote, confirmNote} from './editor.js';
+        activateNote, changeOctave, changeStep, changeDuration, toggleCopyLine} from './existingElementsChange.js';
+import {addCycle, rmCycle, loadAllChords, addHit, rmHit, removeLine} from './dom.js';
+import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine,
+        listenNote, confirmNote, playAll} from './editor.js';
 import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
@@ -25,13 +26,16 @@ let CLICK_LISTENERS = {
   '.hit': setHit,
   '[name="test"]': testBoi,
   '[name="save"]': saveBoi,
-  '.play-line': playLine,
+  '.play-line': toggleCopyLine,
+  '.copy': toggleCopyLine,
+  '.rm-line': removeLine,
   '.roll .note': activateNote,
   '.octave button': changeOctave,
   '.play-note': listenNote,
   '.step-change': changeStep,
   '.duration-change': changeDuration,
   '.ok-note': confirmNote,
+  '.play': playAll,
 };
 
 let FORCE_EVENTS = {
@@ -61,6 +65,8 @@ let CLASSNAMES_OF_LISTENERS = {
     '.play-boi',
     '.ok-boi',
     '.play-line',
+    '.copy',
+    '.rm-line',
     '.roll .note',
     '.octave button',
     '.play-note',
@@ -98,6 +104,9 @@ let CLASSNAMES_OF_LISTENERS = {
     '.step-change',
     '.duration-change',
     '.ok-note',
+  ],
+  'tools':[
+    '.play',
   ],
 }
 

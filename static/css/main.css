@@ -273,6 +273,17 @@ h2 {
 .tools{
   flex-basis: 15%;
   min-height: 75vh;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.play{
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  background-image: url('/static/pic/playall.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .board{
@@ -291,6 +302,12 @@ h2 {
   order: 10000;
 }
 
+.paste{
+  background-color: transparent;
+  margin-top: 1rem;
+  order: 10001;
+}
+
 .line{
   position: relative;
   box-sizing: border-box;
@@ -304,7 +321,7 @@ h2 {
   flex-flow: row nowrap;
 }
 
-.play-line{
+.play-line, .copy, .rm-line{
   position: absolute;
   cursor: pointer;
   width: 1rem;
@@ -314,6 +331,20 @@ h2 {
   background-image: url('/static/pic/play.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+.copy{
+  bottom: 1.5rem;
+  background-image: url('/static/pic/copy.png');
+}
+
+.rm-line{
+  bottom: 3rem;
+  background-image: url('/static/pic/rm.png');
+}
+
+.line.to-copy{
+  background-color: rgba(160,140,40,0.2);
 }
 
 .line .display{

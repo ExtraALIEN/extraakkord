@@ -6,12 +6,15 @@
   </header>
   <div class='deck'>
     <div class='tools'>
-
+      <div class='play'></div>
     </div>
     <div class='board' id='board'>
       <button type='button' class='add add-line' id='add-line'>Добавить строку</button>
+      <button type='button' class='add paste' id='paste'>Копия выделенного</button>
       <div class='line'>
         <div class='play-line'></div>
+        <div class='copy'></div>
+        <div class='rm-line'></div>
         <div class='display text'>
           <input class='text' placeholder='Добавьте текст строки песни сюда'></>
           {% include './block-akkord.html' %}

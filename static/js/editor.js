@@ -1,6 +1,6 @@
 import {otherChordsNames, readNote} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
-import {createSpecimen, getBlockCopy} from './dom.js';
+import {createSpecimen, addLine, paste} from './dom.js';
 import {playChord, playBoi, playNote, playVocals, ctx} from './playback.js';
 import {reloadTotalDuration} from './existingElementsChange.js';
 
@@ -12,6 +12,8 @@ opener.addEventListener('click', () => {editor.classList.add('active')});
 closer.addEventListener('click', () => {editor.classList.remove('active')});
 let addLineButton = document.getElementById('add-line');
 addLineButton.addEventListener('click', addLine);
+let pasteButton = document.getElementById('paste');
+pasteButton.addEventListener('click', paste);
 let firstLine = document.querySelector('.line');
 createSpecimen(firstLine, 'line');
 for (let x of ['akkord', 'boi', 'vocals']){
@@ -20,13 +22,9 @@ for (let x of ['akkord', 'boi', 'vocals']){
 }
 createSpecimen(document.querySelector(`.create .hit`), 'hit');
 activateButtons(firstLine, 'line');
+let tools = document.querySelector('.tools');
+activateButtons(tools, 'tools');
 
-
-function addLine(event){
-  let line = getBlockCopy('line');
-  activateButtons(line, 'line');
-  board.append(line);
-}
 
 function testChord(event){
   let frets = this.parentElement.querySelector('.applicature').innerHTML;
@@ -203,5 +201,11 @@ function confirmNote(event){
   createSpecimen(clone, 'vocals');
 }
 
+function playAll(event){
+  let lines = document.querySelectorAll('.line');
+  console.log([...lines]);
+}
 
-export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote, confirmNote};
+
+export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote,
+        confirmNote, playAll};
