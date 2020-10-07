@@ -153,9 +153,10 @@ function detectTimesOnFret(boi, cycles, chords){
 
 function playBoi(bpm, cycles, boi, chords, startTime){
   let data = detectTimesOnFret(boi, cycles, chords);
-  let offset = startTime + 1;
+  let offset = startTime;
   createSoundSources(bpm, data, offset);
   offset += soundDuration(bpm, cycles, boi);
+  return offset;
 }
 
 function soundDuration(bpm, cycles, boi){
@@ -250,7 +251,7 @@ function createVocalsSoundSource(note, octave, startTime, duration){
 }
 
 function playVocals(bpm, notes, startTime){
-  let offset = startTime + 1;
+  let offset = startTime;
   for (let x of notes){
     let [note, octave, upper, lower] = x;
     let duration = soundDuration(bpm, upper * 4 / lower, {cycleLength: 1});

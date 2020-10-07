@@ -277,7 +277,7 @@ h2 {
   flex-flow: column nowrap;
 }
 
-.play{
+.play-all{
   cursor: pointer;
   width: 2rem;
   height: 2rem;

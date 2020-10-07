@@ -26,7 +26,7 @@ let CLICK_LISTENERS = {
   '.hit': setHit,
   '[name="test"]': testBoi,
   '[name="save"]': saveBoi,
-  '.play-line': toggleCopyLine,
+  '.play-line': playLine,
   '.copy': toggleCopyLine,
   '.rm-line': removeLine,
   '.roll .note': activateNote,
@@ -35,7 +35,7 @@ let CLICK_LISTENERS = {
   '.step-change': changeStep,
   '.duration-change': changeDuration,
   '.ok-note': confirmNote,
-  '.play': playAll,
+  '.play-all': playAll,
 };
 
 let FORCE_EVENTS = {
@@ -106,7 +106,7 @@ let CLASSNAMES_OF_LISTENERS = {
     '.ok-note',
   ],
   'tools':[
-    '.play',
+    '.play-all',
   ],
 }
 

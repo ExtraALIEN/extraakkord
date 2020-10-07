@@ -115,8 +115,9 @@ function confirmBoi(event){
   reloadTotalDuration(this, 'boi');
 }
 
-function playLine(event){
+function playLine(event, delay=-1){
   let line = this.closest('.line');
+  console.log(delay);
   let boiCycles = line.querySelectorAll('.boi > .grid .next-val');
   let lineBoi = buildLineBoi(boiCycles);
   //console.log(lineBoi);
@@ -126,10 +127,14 @@ function playLine(event){
   let vocalsElems = line.querySelectorAll('.vocals > .grid .next-val');
   let vocals = [...vocalsElems].filter(a => a.dataset.code)
                                .map(a => readNote(a.dataset.code));
-  console.log(vocals);
-  let startTime = ctx.currentTime;
-  playBoi(110, 1, lineBoi, lineChords, startTime);
+  //console.log(vocals);
+  let startTime = delay;
+  if (delay === -1){
+    startTime = ctx.currentTime + 1;
+  }
+  let offset = playBoi(110, 1, lineBoi, lineChords, startTime);
   playVocals(110, vocals, startTime);
+  return offset;
 }
 
 
@@ -203,7 +208,10 @@ function confirmNote(event){
 
 function playAll(event){
   let lines = document.querySelectorAll('.line');
-  console.log([...lines]);
+  let offset = ctx.currentTime + 1;
+  for (let x of [...lines]){
+    offset = playLine.call(x, null, offset);
+  }
 }
 
 
