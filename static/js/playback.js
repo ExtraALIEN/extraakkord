@@ -189,6 +189,8 @@ function createSoundSources(bpm, data, offset){
       range = HIT_AREA[area];
     } else if (area === 'b'){
       range = [0,1,2,3,4,5].filter(a=>a>lastBass);
+    } else if (area === 'v'){
+      range = [0,1,2,3,4,5];
     }
 
     for(let st of range){
@@ -225,7 +227,10 @@ function createSoundSources(bpm, data, offset){
             lastBass = st;
           }
           break;
+        } else if (area === 'v'){
+          break;
         }
+
       }
     }
   }

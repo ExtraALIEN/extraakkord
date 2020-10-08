@@ -132,8 +132,9 @@ function playLine(event, delay=-1){
   if (delay === -1){
     startTime = ctx.currentTime + 1;
   }
-  let offset = playBoi(110, 1, lineBoi, lineChords, startTime);
-  playVocals(110, vocals, startTime);
+  let bpm = detectBPM();
+  let offset = playBoi(bpm, 1, lineBoi, lineChords, startTime);
+  playVocals(bpm, vocals, startTime);
   return offset;
 }
 
@@ -185,7 +186,8 @@ function listenNote(event){
   let note = +block.querySelector('.note.active').dataset.note;
   let durElem = block.querySelector('.duration .val');
   let ticks = (+durElem.dataset.upper / +durElem.dataset.lower) * 4;
-  playNote(110, ticks ,octave, note);
+  let bpm = detectBPM();
+  playNote(bpm, ticks ,octave, note);
 }
 
 function confirmNote(event){
@@ -212,6 +214,11 @@ function playAll(event){
   for (let x of [...lines]){
     offset = playLine.call(x, null, offset);
   }
+}
+
+function detectBPM(){
+  let span = document.querySelector('.tempo .speed');
+  return +span.dataset.speed;
 }
 
 

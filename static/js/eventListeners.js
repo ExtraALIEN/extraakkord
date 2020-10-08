@@ -1,6 +1,7 @@
 import {setModeToLine, showPopup, hidePopup, changeBasetone,
         loadApplicature, listApplicature, confirmChord, changeLong, setHit,
-        activateNote, changeOctave, changeStep, changeDuration, toggleCopyLine} from './existingElementsChange.js';
+        activateNote, changeOctave, changeStep, changeDuration, toggleCopyLine,
+        changeSpeed, changeBass} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit, removeLine} from './dom.js';
 import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine,
         listenNote, confirmNote, playAll} from './editor.js';
@@ -13,6 +14,7 @@ let CLICK_LISTENERS = {
   '[name="add-cycle"]': addCycle,
   '[name="rm-cycle"]': rmCycle,
   '.base button': changeBasetone,
+  '.tone button': changeBass,
   '.akkord .option': loadApplicature,
   '.extend > div button': listApplicature,
   '.play': testChord,
@@ -36,6 +38,7 @@ let CLICK_LISTENERS = {
   '.duration-change': changeDuration,
   '.ok-note': confirmNote,
   '.play-all': playAll,
+  '.tempo button': changeSpeed,
 };
 
 let FORCE_EVENTS = {
@@ -50,6 +53,7 @@ let CLASSNAMES_OF_LISTENERS = {
     '[name="add-cycle"]',
     '[name="rm-cycle"]',
     '.base button',
+    '.tone button',
     '.akkord .option',
     '.extend > div button',
     '.play',
@@ -77,6 +81,7 @@ let CLASSNAMES_OF_LISTENERS = {
   'akkord': [
     '.closer',
     '.base button',
+    '.tone button',
     '.akkord .option',
     '.extend > div button',
     '.play',
@@ -107,6 +112,7 @@ let CLASSNAMES_OF_LISTENERS = {
   ],
   'tools':[
     '.play-all',
+    '.tempo button',
   ],
 }
 

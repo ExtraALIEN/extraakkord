@@ -1,5 +1,5 @@
 import {activateButtons} from './eventListeners.js';
-import {adjacentTone, detectApplicature} from './music-calc.js';
+import {adjacentTone, detectApplicature, applyAlternativeBass} from './music-calc.js';
 import {fractureSum} from './utils.js';
 
 
@@ -29,12 +29,40 @@ function changeBasetone(event){
   let newTone = adjacentTone(currentTone, this.name === '+');
   currentVal.innerHTML = newTone;
   let cycle = currentVal.closest('.cycle');
+  let bass = cycle.querySelector('.tone .val');
+  bass.innerHTML = newTone;
   for (let x of [...cycle.querySelectorAll('.option')]){
     x.innerHTML = `${newTone}${x.name}`;
     x.dataset.index = 0;
   }
   activateButtons(cycle.closest('[data-type]'), 'akkord');
 }
+
+function changeBass(event){
+  let currentVal = this.parentElement.querySelector('.val');
+  let currentBass = currentVal.innerHTML;
+  let newBass = adjacentTone(currentBass, this.name === '+');
+  currentVal.innerHTML = newBass;
+  let cycle = currentVal.closest('.cycle');
+  let tone = cycle.querySelector('.base .val').innerHTML;
+  for (let x of [...cycle.querySelectorAll('.option')]){
+    x.dataset.bass = newBass === tone ? '': `/${newBass}`;
+    x.innerHTML = `${tone}${x.name}${x.dataset.bass}`;
+    loadApplicature.call(x, null);
+    let chord = x.closest('.extend').querySelector('.applicature')
+                                          .innerHTML;
+    if (newBass !== tone){
+      let newApplicature = applyAlternativeBass(newBass, chord);
+      x.closest('.extend').querySelector('.applicature').innerHTML = newApplicature;
+      if (newApplicature === chord){
+        x.innerHTML = `${tone}${x.name}`;
+      }
+    }
+  }
+  // activateButtons(cycle.closest('[data-type]'), 'akkord');
+}
+
+
 
 function loadApplicature(event){
   let currentTone = this.closest('.cell').querySelector('.val').innerHTML;
@@ -68,6 +96,12 @@ function listApplicature(event){
   chordBtn.dataset.index = index;
   let numbers = applicatures[index].replace(/:/g, ' ');
   this.parentElement.querySelector('.applicature').innerHTML = numbers;
+  let cycle = chordBtn.closest('.cycle');
+  let currentBass = cycle.querySelector('.tone .val').innerHTML;
+  if (currentBass !== currentTone){
+    let newApplicature = applyAlternativeBass(currentBass, numbers);
+    this.parentElement.querySelector('.applicature').innerHTML = newApplicature;
+  }
 }
 
 function changeLong(event){
@@ -91,8 +125,11 @@ function confirmChord(event){
   let chord = option.innerHTML;
   span.dataset.chord = chord;
   span.innerHTML = chord;
-  span.dataset.applicature = JSON.parse(
-      localStorage.getItem('applicatures'))[chord][option.dataset.index];
+  //span.dataset.applicature = JSON.parse(
+  //    localStorage.getItem('applicatures'))[chord][option.dataset.index];
+  span.dataset.applicature = option.parentElement
+                                   .querySelector('.applicature').innerHTML
+                                   .split(' ').join(':');
 }
 
 function setHit(event){
@@ -203,6 +240,21 @@ function toggleCopyLine(event){
   line.classList.toggle('to-copy');
 }
 
+function changeSpeed(event){
+  let span = this.closest('.tempo').querySelector('.speed');
+  let speed = +span.dataset.speed;
+  if (this.name === '+'){
+    speed += 1;
+    speed = Math.min(speed, 240);
+  }else {
+    speed -= 1;
+    speed = Math.max(speed, 40);
+  }
+  span.dataset.speed = speed;
+  span.innerHTML = span.dataset.speed;
+}
+
 export {setModeToLine, showPopup, hidePopup, changeBasetone, loadApplicature,
         listApplicature, confirmChord, changeLong, setHit, activateNote,
-        changeOctave, changeStep, changeDuration, reloadTotalDuration, toggleCopyLine};
+        changeOctave, changeStep, changeDuration, reloadTotalDuration, toggleCopyLine,
+        changeSpeed, changeBass};

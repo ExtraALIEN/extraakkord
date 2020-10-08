@@ -734,6 +734,11 @@ h2 {
 .create .b{
   background-image: url('/static/pic/hit/b.png');
 }
+
+.create .v{
+  background-image: url('/static/pic/hit/v.png');
+}
+
 .create .p1{
   background-image: url('/static/pic/hit/1.png');
 }

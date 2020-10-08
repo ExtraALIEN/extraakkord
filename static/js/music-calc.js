@@ -216,6 +216,33 @@ function allNotesExist(notes, chord){
   return true;
 }
 
+function applyAlternativeBass(note, chord){
+  let frets = chord.split(' ').map(a=> a=== 'x'? -1 : +a);
+  let found = false;
+  for (let st=0; st<6; st++){
+    let result = frets.slice();
+    if (frets[st] < 0){
+      let bassFret = detectFret(note, st);
+      result.splice(st, 1);
+      if (fretInRange(bassFret, result)){
+        result.splice(st, 0, bassFret)
+        return result.map(a=> a < 0? 'x' : `${a}`).join(' ');
+      }
+    } else {
+      let bassFret = detectFret(note, st);
+      result.splice(st, 1);
+      if (fretInRange(bassFret, result)){
+        result.splice(st, 0, bassFret)
+        return result.map(a=> a < 0? 'x' : `${a}`).join(' ');
+      }
+      break;
+    }
+  }
+  return chord;
+  //console.log(note, frets);
+
+}
+
 function detectFret(note, stringIndex){
   let noteIndex = 0;
   while (BASE_TONES[((noteIndex + STRING_OFFSET[stringIndex])%12)] !== note){
@@ -223,6 +250,7 @@ function detectFret(note, stringIndex){
   }
   return noteIndex;
 }
+
 
 function adjacentTone(tone, inc){
   let index = BASE_TONES.indexOf(tone);
@@ -260,4 +288,4 @@ function readNote(code){
 }
 
 export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames,
-        noteToHz, readNote};
+        noteToHz, readNote, applyAlternativeBass};
