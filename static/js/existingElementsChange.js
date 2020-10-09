@@ -98,10 +98,20 @@ function listApplicature(event){
   this.parentElement.querySelector('.applicature').innerHTML = numbers;
   let cycle = chordBtn.closest('.cycle');
   let currentBass = cycle.querySelector('.tone .val').innerHTML;
+  let newApplicature;
   if (currentBass !== currentTone){
-    let newApplicature = applyAlternativeBass(currentBass, numbers);
-    this.parentElement.querySelector('.applicature').innerHTML = newApplicature;
+    newApplicature = applyAlternativeBass(currentBass, numbers);
+  } else{
+    newApplicature = numbers;
   }
+  this.parentElement.querySelector('.applicature').innerHTML = newApplicature;
+  if (newApplicature !== numbers){
+    chordBtn.dataset.bass = currentBass === currentTone ? '': `/${currentBass}`;
+    chordBtn.innerHTML = `${chord}${chordBtn.dataset.bass}`;
+  }else{
+    chordBtn.innerHTML = `${chord}`;
+  }
+
 }
 
 function changeLong(event){

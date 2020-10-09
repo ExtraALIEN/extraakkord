@@ -4,7 +4,7 @@ import {setModeToLine, showPopup, hidePopup, changeBasetone,
         changeSpeed, changeBass} from './existingElementsChange.js';
 import {addCycle, rmCycle, loadAllChords, addHit, rmHit, removeLine} from './dom.js';
 import {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine,
-        listenNote, confirmNote, playAll} from './editor.js';
+        listenNote, confirmNote, playAll, saveTemporary} from './editor.js';
 import {postAjax} from './ajax.js';
 
 let CLICK_LISTENERS = {
@@ -39,6 +39,7 @@ let CLICK_LISTENERS = {
   '.ok-note': confirmNote,
   '.play-all': playAll,
   '.tempo button': changeSpeed,
+  '.editor > .closer': saveTemporary,
 };
 
 let FORCE_EVENTS = {
@@ -114,6 +115,9 @@ let CLASSNAMES_OF_LISTENERS = {
     '.play-all',
     '.tempo button',
   ],
+  'editor':[
+    '.editor > .closer',
+  ]
 }
 
 function activateButtons(elem, cl){

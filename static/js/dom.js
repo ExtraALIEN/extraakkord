@@ -95,5 +95,35 @@ function removeLine(event){
   line.remove();
 }
 
+function displayPick(fromLocal=false){
+  let section = document.getElementById('pick');
+  section.innerHTML = '';
+  let pick;
+  if (fromLocal){
+    pick = document.tempLines;
+  }
+  let {text, bpm, bois, chords, vocals} = pick;
+  [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
+  let len = text.length;
+  for (let x=0; x<len; x++){
+    let line = document.createElement('div');
+    line.classList.add('view-line');
+    let chordBlock = document.createElement('div');
+    chordBlock.classList.add('chords');
+    console.log(chords[x]);
+    for (let c of chords[x].split(';')){
+      let [signature, applicature] = c.split('*').map(a=>a.replace(/:/g, ' '));
+      let cycle = document.createElement('div');
+      cycle.innerHTML = signature;
+      cycle.dataset.chord = signature;
+      cycle.dataset.applicature = applicature;
+      chordBlock.append(cycle);
+    }
+    line.append(chordBlock);
+    section.append(line);
+  }
+
+}
+
 export {addCycle, rmCycle, loadAllChords, createSpecimen, getBlockCopy, addHit,
-        rmHit, removeLine, addLine, paste};
+        rmHit, removeLine, addLine, paste, displayPick};

@@ -1,6 +1,6 @@
 import {otherChordsNames, readNote} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
-import {createSpecimen, addLine, paste} from './dom.js';
+import {createSpecimen, addLine, paste, displayPick} from './dom.js';
 import {playChord, playBoi, playNote, playVocals, ctx} from './playback.js';
 import {reloadTotalDuration} from './existingElementsChange.js';
 
@@ -24,6 +24,7 @@ createSpecimen(document.querySelector(`.create .hit`), 'hit');
 activateButtons(firstLine, 'line');
 let tools = document.querySelector('.tools');
 activateButtons(tools, 'tools');
+activateButtons(editor, 'editor');
 
 
 function testChord(event){
@@ -221,6 +222,69 @@ function detectBPM(){
   return +span.dataset.speed;
 }
 
+function saveTemporary(event){
+  let bpm = detectBPM();
+  let tempLines = {
+    'bpm': bpm,
+    'text': [],
+    'chords': [],
+    'bois': [],
+    'vocals': [],
+  };
+  for (let line of [...board.querySelectorAll('.line')]){
+    let text = line.querySelector('input.text').value;
+    tempLines.text.push(text);
+    let chords = [];
+    let lastChord = '';
+    let lastApplicature = '';
+    for (let chord of [...line.querySelectorAll('[data-type="akkord"] .next-val')]){
+      let ch = chord.dataset.chord;
+      if (ch) {
+        lastChord = ch;
+      }else {
+        ch = lastChord;
+      }
+      let ap = chord.dataset.applicature;
+      if (ap) {
+        lastApplicature = ap;
+      } else {
+        ap = lastApplicature;
+      }
+      chords.push(`${ch}*${ap}`);
+    }
+    tempLines.chords.push(chords.join(';'));
+    let lastCycle = '';
+    let lastBoi = '';
+    let bois = [];
+    for (let boi of [...line.querySelectorAll('[data-type="boi"] .next-val')]){
+      let cy = boi.dataset.cycle;
+      if (cy) {
+        lastCycle = cy;
+      }else {
+        cy = lastCycle;
+      }
+      let co = boi.dataset.code;
+      if (co) {
+        lastBoi = co;
+      } else {
+        co = lastBoi;
+      }
+      bois.push(`${cy}*${co}`);
+    }
+    tempLines.bois.push(bois.join(';'));
+    let vocals = [];
+    for (let note of [...line.querySelectorAll('[data-type="vocals"] .next-val')]){
+      vocals.push(`${note.dataset.code}`);
+    }
+    tempLines.vocals.push(vocals.join(';'));
+
+  }
+  for (let x of ['bois', 'vocals', 'chords', 'text']){
+    tempLines[x] = tempLines[x].join('][');
+  }
+  document.tempLines = tempLines;
+  displayPick(true);
+}
 
 export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote,
-        confirmNote, playAll};
+        confirmNote, playAll, saveTemporary};
