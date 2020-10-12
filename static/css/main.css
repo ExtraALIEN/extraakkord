@@ -258,6 +258,7 @@ h2 {
   border: .25rem solid #371a0c;
   background-color: #ffffff;
   flex-flow: column nowrap;
+  z-index: 20;
 }
 
 .editor header{
@@ -830,11 +831,12 @@ h2 {
 }
 
 .view-line{
-  flex-basis: 3rem;
+  flex-basis: 1.5rem;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
+  width:100%;
 }
 
 .view-line .chords{
@@ -843,12 +845,78 @@ h2 {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-start;
+  width:100%;
+  font-weight: bold;
+  position: relative;
 }
 
-.chords > div{
+.chords .cycle-chord{
   flex-grow: 1;
+  flex-basis: 0;
+  height: 100%;
+  line-height: 1.5rem;
+  position: relative;
 }
 
+.cycle-chord .app{
+  display: none;
+  position: absolute;
+  left: 1rem;
+  top: 100%;
+  border: .0625rem solid black;
+  padding: .5rem;
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+.cycle-chord:hover .app{
+  display: block;
+}
+
+.chords .boi-block{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  z-index: -5;
+}
+
+.boi-block .cycle-boi{
+  height: 100%;
+}
+
+.cycle-boi.boi-0{
+  background-color: rgba(200, 60, 60, .075);
+}
+
+.cycle-boi.boi-1{
+  background-color: rgba(200, 200, 60, .075);
+}
+
+.cycle-boi.boi-2{
+  background-color: rgba(60, 200, 60, .075);
+}
+
+.cycle-boi.boi-3{
+  background-color: rgba(60, 200, 200, .075);
+}
+
+.cycle-boi.boi-4{
+  background-color: rgba(60, 60, 200, .075);
+}
+
+.cycle-boi.boi-5{
+  background-color: rgba(200, 60, 200, .075);
+}
+
+.note-block{
+  display: none;
+}
 
 
 @media screen and (max-height: 550px){

@@ -105,21 +105,65 @@ function displayPick(fromLocal=false){
   let {text, bpm, bois, chords, vocals} = pick;
   [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
   let len = text.length;
+  let allBois = [];
   for (let x=0; x<len; x++){
     let line = document.createElement('div');
     line.classList.add('view-line');
     let chordBlock = document.createElement('div');
     chordBlock.classList.add('chords');
-    console.log(chords[x]);
     for (let c of chords[x].split(';')){
       let [signature, applicature] = c.split('*').map(a=>a.replace(/:/g, ' '));
       let cycle = document.createElement('div');
       cycle.innerHTML = signature;
       cycle.dataset.chord = signature;
       cycle.dataset.applicature = applicature;
+      cycle.classList.add('cycle-chord');
+      if (signature){
+        let popup = document.createElement('div');
+        popup.classList.add('app');
+        popup.innerHTML = `${cycle.dataset.chord} ${cycle.dataset.applicature}`;
+        cycle.append(popup);
+      }
       chordBlock.append(cycle);
     }
     line.append(chordBlock);
+    let textBlock = document.createElement('div');
+    let textLine = document.createElement('span');
+    textLine.innerHTML = text[x];
+    textBlock.append(textLine);
+    line.append(textBlock);
+    let boiBlock = document.createElement('div');
+    boiBlock.classList.add('boi-block');
+    for (let b of bois[x].split(';')){
+      if (!allBois.includes(b)){
+        allBois.push(b);
+      }
+      let cycle = document.createElement('div');
+      let [boiCycles, code] = b.split('*');
+      cycle.classList.add('cycle-boi');
+      cycle.classList.add(`boi-${allBois.indexOf(b)}`);
+      cycle.dataset.cycles = boiCycles;
+      cycle.dataset.code = code;
+      cycle.style.flexGrow = cycle.dataset.cycles;
+      if (+boiCycles){
+        boiBlock.append(cycle);
+      }
+    }
+    chordBlock.append(boiBlock);
+    let noteBlock = document.createElement('div');
+    noteBlock.classList.add('note-block');
+    for (let v of vocals[x].split(';')){
+      let [note, octave, upper, lower] = v.split('*');
+      let cycle = document.createElement('div');
+      cycle.dataset.note = note;
+      cycle.dataset.octave = octave;
+      cycle.dataset.upper = upper;
+      cycle.dataset.lower = lower;
+      if (note){
+        noteBlock.append(cycle);
+      }
+    }
+    line.append(noteBlock);
     section.append(line);
   }
 
