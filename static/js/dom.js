@@ -100,12 +100,13 @@ function displayPick(fromLocal=false){
   section.innerHTML = '';
   let pick;
   if (fromLocal){
-    pick = document.tempLines;
+    pick = JSON.parse(localStorage.getItem('tempLines'));
   }
   let {text, bpm, bois, chords, vocals} = pick;
   [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
   let len = text.length;
   let allBois = [];
+  let lastChord = '';
   for (let x=0; x<len; x++){
     let line = document.createElement('div');
     line.classList.add('view-line');
@@ -114,16 +115,21 @@ function displayPick(fromLocal=false){
     for (let c of chords[x].split(';')){
       let [signature, applicature] = c.split('*').map(a=>a.replace(/:/g, ' '));
       let cycle = document.createElement('div');
-      cycle.innerHTML = signature;
+
       cycle.dataset.chord = signature;
       cycle.dataset.applicature = applicature;
       cycle.classList.add('cycle-chord');
-      if (signature){
-        let popup = document.createElement('div');
-        popup.classList.add('app');
-        popup.innerHTML = `${cycle.dataset.chord} ${cycle.dataset.applicature}`;
-        cycle.append(popup);
+      if (signature !== lastChord){
+        cycle.innerHTML = signature;
+        lastChord = signature;
+        if (signature){
+          let popup = document.createElement('div');
+          popup.classList.add('app');
+          popup.innerHTML = `${cycle.dataset.chord} ${cycle.dataset.applicature}`;
+          cycle.append(popup);
+        }
       }
+
       chordBlock.append(cycle);
     }
     line.append(chordBlock);
@@ -169,5 +175,44 @@ function displayPick(fromLocal=false){
 
 }
 
+function buildEditor(){
+  let board = document.getElementById('board');
+  let pick = JSON.parse(localStorage.getItem('tempLines'));
+  let {text, bpm, bois, chords, vocals} = pick;
+  [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
+  let len = text.length;
+  console.log(pick);
+  for (let x=0; x<len; x++){
+    // let line = document.createElement('div');
+    // line.classList.add('line');
+    // let playLine = document.createElement('div');
+    // let copy = document.createElement('div');
+    // let rmLine = document.createElement('div');
+    // playLine.classList.add('play-line');
+    // copy.classList.add('copy');
+    // rmLine.classList.add('rm-line');
+    // line.append(playLine);
+    // line.append(copy);
+    // line.append(rmLine);
+    let line = getBlockCopy('line');
+    line.querySelector('input.text').value = text[x];
+    let chordBlock = line.querySelector('.akkord .grid');
+    for (let c of chords[x].split(';')){
+      let [signature, applicature] = c.split('*');
+      console.log(signature, applicature);
+      let cycle = getBlockCopy('akkord');
+      let nextVal = cycle.querySelector('.next-val');
+      nextVal.dataset.chord = signature;
+      nextVal.dataset.applicature = applicature;
+      nextVal.innerHTML = signature;
+      if (signature){
+        chordBlock.append(cycle);
+      }
+      console.log(cycle);
+    }
+    board.append(line);
+  }
+}
+
 export {addCycle, rmCycle, loadAllChords, createSpecimen, getBlockCopy, addHit,
-        rmHit, removeLine, addLine, paste, displayPick};
+        rmHit, removeLine, addLine, paste, displayPick, buildEditor};

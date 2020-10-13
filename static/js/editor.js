@@ -1,6 +1,6 @@
 import {otherChordsNames, readNote} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
-import {createSpecimen, addLine, paste, displayPick} from './dom.js';
+import {createSpecimen, addLine, paste, displayPick, buildEditor} from './dom.js';
 import {playChord, playBoi, playNote, playVocals, ctx} from './playback.js';
 import {reloadTotalDuration} from './existingElementsChange.js';
 
@@ -25,6 +25,10 @@ activateButtons(firstLine, 'line');
 let tools = document.querySelector('.tools');
 activateButtons(tools, 'tools');
 activateButtons(editor, 'editor');
+if (localStorage.getItem('tempLines')){
+  displayPick(true);
+  buildEditor();
+}
 
 
 function testChord(event){
@@ -204,6 +208,10 @@ function confirmNote(event){
   span.dataset.code = `${note}*${octave}*${duration.dataset.upper}*${duration.dataset.lower}`;
   span.innerHTML = `${note !== '_' ? note : '--'}${octave >=0 ? octave : ''}  ${duration.dataset.upper}/${duration.dataset.lower}`;
   reloadTotalDuration(this, 'vocals');
+  let long = +duration.dataset.upper/+duration.dataset.lower;
+  block.style.flexBasis = `${long * 4 * 100}%`;
+  block.style.maxWidth = `${Math.min(long, 0.25) * 4 * 100}%`;
+  block.style.height = `${Math.max(long*4, 1)}rem`;
   let clone = block.cloneNode(true);
   clone.querySelector('.popup.active').classList.remove('active');
   createSpecimen(clone, 'vocals');
@@ -282,7 +290,7 @@ function saveTemporary(event){
   for (let x of ['bois', 'vocals', 'chords', 'text']){
     tempLines[x] = tempLines[x].join('][');
   }
-  document.tempLines = tempLines;
+  localStorage.setItem('tempLines', JSON.stringify(tempLines));
   displayPick(true);
 }
 
