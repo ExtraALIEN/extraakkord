@@ -1,11 +1,13 @@
-import {otherChordsNames} from './music-calc.js';
+import {otherChordsNames, NOTE_NUMBERS} from './music-calc.js';
 import {activateButtons} from './eventListeners.js';
 import {showPopup, reloadTotalDuration} from './existingElementsChange.js';
+import {confirmNote} from './editor.js';
 
 let CYCLE_TYPES = {
   'line': 'sampleLine',
   'akkord': 'sampleAkkordCycle',
   'boi': 'sampleBoiCycle',
+  'vocals': 'sampleVocalsCycle',
   'hit': 'sampleHit',
   'applicature': 'sampleApplicatureLine',
 };
@@ -102,7 +104,7 @@ function displayPick(fromLocal=false){
   if (fromLocal){
     pick = JSON.parse(localStorage.getItem('tempLines'));
   }
-  let {text, bpm, bois, chords, vocals} = pick;
+  let {text, bpm, bois, chords, vocals, boiNames} = pick;
   [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
   let len = text.length;
   let allBois = [];
@@ -177,24 +179,19 @@ function displayPick(fromLocal=false){
 
 function buildEditor(){
   let board = document.getElementById('board');
+  for (let x of [...board.querySelectorAll('.line')]){
+    x.remove();
+  }
   let pick = JSON.parse(localStorage.getItem('tempLines'));
-  let {text, bpm, bois, chords, vocals} = pick;
+  let {text, bpm, bois, chords, vocals, boiNames} = pick;
   [text, bois, chords, vocals] = [text, bois, chords, vocals].map(a=>a.split(']['));
   let len = text.length;
   console.log(pick);
   for (let x=0; x<len; x++){
-    // let line = document.createElement('div');
-    // line.classList.add('line');
-    // let playLine = document.createElement('div');
-    // let copy = document.createElement('div');
-    // let rmLine = document.createElement('div');
-    // playLine.classList.add('play-line');
-    // copy.classList.add('copy');
-    // rmLine.classList.add('rm-line');
-    // line.append(playLine);
-    // line.append(copy);
-    // line.append(rmLine);
     let line = getBlockCopy('line');
+    for (let x of [...line.querySelectorAll('.cycle')]){
+      x.remove();
+    }
     line.querySelector('input.text').value = text[x];
     let chordBlock = line.querySelector('.akkord .grid');
     for (let c of chords[x].split(';')){
@@ -208,9 +205,46 @@ function buildEditor(){
       if (signature){
         chordBlock.append(cycle);
       }
-      console.log(cycle);
     }
+    let boiBlock = line.querySelector('.boi .grid');
+    for (let b of bois[x].split(';')){
+      let cycle = getBlockCopy('boi');
+      let [boiCycles, code] = b.split('*');
+      let nextVal = cycle.querySelector('.next-val');
+      nextVal.dataset.cycle = +boiCycles;
+      nextVal.dataset.code = code;
+      nextVal.dataset.name = boiNames[b];
+      console.log(boiNames, b);
+      nextVal.innerHTML = nextVal.dataset.name;
+      if (+boiCycles){
+        boiBlock.append(cycle);
+      }
+    }
+    reloadTotalDuration(boiBlock, 'boi');
+    let vocalsBlock = line.querySelector('.vocals .grid');
+    for (let v of vocals[x].split(';')){
+      let [note, octave, upper, lower] = v.split('*');
+      let cycle = getBlockCopy('vocals');
+      let nextVal = cycle.querySelector('.next-val');
+      nextVal.dataset.code = v;
+      if (note){
+        cycle.querySelector('.note.active').classList.remove('active');
+        cycle.querySelector(`.note[data-note="${NOTE_NUMBERS[note]}"]`).classList.add('active');
+        let oct = cycle.querySelector(`.notation`);
+        oct.dataset.octave = +octave === -1 ? 4 : octave;
+        oct.innerHTML = oct.dataset.octave;
+        let duration = cycle.querySelector('.duration .val');
+        duration.dataset.upper = upper;
+        duration.dataset.lower = lower;
+        duration.innerHTML = `${upper}/${lower}`;
+        vocalsBlock.append(cycle);
+        confirmNote.call(cycle, null);
+      }
+    }
+
     board.append(line);
+
+    activateButtons(line, 'line');
   }
 }
 

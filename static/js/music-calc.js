@@ -288,4 +288,4 @@ function readNote(code){
 }
 
 export {adjacentTone, detectApplicature, fretToHz, fretOffset, otherChordsNames,
-        noteToHz, readNote, applyAlternativeBass};
+        noteToHz, readNote, applyAlternativeBass, NOTE_NUMBERS};

@@ -114,9 +114,10 @@ function confirmBoi(event){
   let name = block.querySelector('div').innerHTML;
   let code = boiEl.dataset.code;
   let cycleLength = boiEl.dataset.cycle;
-  span.innerHTML = name;
+  span.dataset.name = name;
   span.dataset.code = code;
   span.dataset.cycle = cycleLength;
+  span.innerHTML = span.dataset.name;
   reloadTotalDuration(this, 'boi');
 }
 
@@ -213,7 +214,10 @@ function confirmNote(event){
   block.style.maxWidth = `${Math.min(long, 0.25) * 4 * 100}%`;
   block.style.height = `${Math.max(long*4, 1)}rem`;
   let clone = block.cloneNode(true);
-  clone.querySelector('.popup.active').classList.remove('active');
+  let popup = clone.querySelector('.popup.active');
+  if (popup){
+    popup.classList.remove('active');
+  }
   createSpecimen(clone, 'vocals');
 }
 
@@ -238,6 +242,7 @@ function saveTemporary(event){
     'chords': [],
     'bois': [],
     'vocals': [],
+    'boiNames': {},
   };
   for (let line of [...board.querySelectorAll('.line')]){
     let text = line.querySelector('input.text').value;
@@ -263,21 +268,25 @@ function saveTemporary(event){
     tempLines.chords.push(chords.join(';'));
     let lastCycle = '';
     let lastBoi = '';
+    let lastName = '';
     let bois = [];
     for (let boi of [...line.querySelectorAll('[data-type="boi"] .next-val')]){
       let cy = boi.dataset.cycle;
-      if (cy) {
+      let co = boi.dataset.code;
+      if (cy || co) {
         lastCycle = cy;
+        lastBoi = co;
+        lastName = boi.dataset.name;
       }else {
         cy = lastCycle;
-      }
-      let co = boi.dataset.code;
-      if (co) {
-        lastBoi = co;
-      } else {
         co = lastBoi;
       }
-      bois.push(`${cy}*${co}`);
+      let b = `${cy}*${co}`;
+      if (b){
+        tempLines.boiNames[b] = lastName;
+      }
+      bois.push(b);
+
     }
     tempLines.bois.push(bois.join(';'));
     let vocals = [];

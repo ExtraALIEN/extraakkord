@@ -206,8 +206,14 @@ function changeDuration(event){
   let [durUpper, durLower] = [+val.dataset.upper, +val.dataset.lower];
   let [stepUpper, stepLower] = [+span.dataset.upper, +span.dataset.lower];
   if (this.name === '-'){
+    while (durUpper/durLower <= stepUpper/stepLower && stepLower < 32){
+      let stepDown = block.querySelector('.step-change[name="/"]');
+      changeStep.call(stepDown, null);
+      stepLower = +span.dataset.lower;
+    }
     stepUpper *= -1;
   }
+
   let sum = fractureSum([durUpper, durLower], [stepUpper, stepLower]);
   val.dataset.upper = sum[0];
   val.dataset.lower = sum[1];
