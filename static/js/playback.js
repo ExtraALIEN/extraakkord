@@ -80,7 +80,7 @@ function createBuffer(){
   for(let type of ['u', 'd']){
     for(let x=0; x<6;x++){
       let name = `${x}${type}`;
-      fetch(`/static/wav/${name}.wav`)
+      fetch(`/static/ogg/${name}.ogg`)
         .then(response => response.arrayBuffer())
         .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
         .then(buffer => {

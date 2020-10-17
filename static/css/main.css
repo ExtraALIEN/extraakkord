@@ -110,6 +110,12 @@ h2 {
   color: #2f8c5d;
 }
 
+.menu .tool{
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid black;
+}
+
 .current-location{
   color: #cc721f;
 }
@@ -617,7 +623,23 @@ h2 {
   flex-shrink: 0;
 }
 
-.boi .create .area{
+.create{
+  text-align: center;
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: .75rem;
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 4.25rem;
+}
+
+.create p{
+  height: 1rem;
+  line-height: 1rem;
+  box-sizing: border-box;
+}
+
+.boi .create .area, .create .area{
   display: flex;
   flex-flow: row wrap;
   width: 100%;
@@ -641,6 +663,7 @@ h2 {
 
 .area label{
   flex-basis: 1rem;
+  line-height: 1.25rem;
   width: 100%;
   box-sizing: border-box;
   display: flex;

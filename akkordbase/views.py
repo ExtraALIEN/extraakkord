@@ -122,3 +122,10 @@ def add_pick(request, artist_name, song_name):
                    'song': the_song,
                    'popular_bois': popular_bois
                    })
+
+def create_boi(request):
+    boi_form = AddBoiForm()
+    return render(request, 'akkordbase/create_boi.html',
+                  {'heading': 'Создать бой',
+                   'boi_form': boi_form,
+                   })

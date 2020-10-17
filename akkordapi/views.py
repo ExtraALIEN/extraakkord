@@ -60,6 +60,7 @@ def add_song(request, artist_name):
 
 def add_pick(request, artist_name, song_name):
     if request.method == 'POST' and request.user is not None:
+        print(request.POST)
         form = AddPickForm(request.POST)
         the_artist = Artist.objects.get(slug=artist_name)
         the_song = the_artist.songs.get(slug=song_name)

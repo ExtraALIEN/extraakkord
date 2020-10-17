@@ -112,8 +112,9 @@ class AddPickForm(forms.Form):
     music_data = forms.CharField(required=False,
                                  widget=forms.HiddenInput)
 
-    def clean_full_name(self):
+    def clean_music_data(self):
         input = self.cleaned_data['music_data']
+        print(input, 1)
         # if len(input) == 0:
         #     self.add_error('full_name',
         #                    forms.ValidationError(

@@ -117,7 +117,15 @@ let CLASSNAMES_OF_LISTENERS = {
   ],
   'editor':[
     '.editor > .closer',
-  ]
+  ],
+  'createBoi': [
+    '.boi-long button',
+    '.hit',
+    '[name="test"]',
+    '[name="save"]',
+    '[name="add-hit"]',
+    '[name="rm-hit"]',
+  ],
 }
 
 function activateButtons(elem, cl){

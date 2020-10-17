@@ -63,14 +63,14 @@ function rmCycle(event){
 }
 
 function addHit(event){
-  let block = this.closest('.show');
+  let block = this.closest('.create');
   let cycle = getBlockCopy('hit');
   block.querySelector('.boi-field').append(cycle);
   activateButtons(block.querySelector('.boi-field'), 'hit');
 }
 
 function rmHit(event){
-  let grid = this.closest('.show').querySelector('.boi-field');
+  let grid = this.closest('.create').querySelector('.boi-field');
   let last = grid.lastChild;
   if (last){
     last.remove();

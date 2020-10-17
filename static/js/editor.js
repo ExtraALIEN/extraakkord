@@ -4,30 +4,33 @@ import {createSpecimen, addLine, paste, displayPick, buildEditor} from './dom.js
 import {playChord, playBoi, playNote, playVocals, ctx} from './playback.js';
 import {reloadTotalDuration} from './existingElementsChange.js';
 
-let opener = document.getElementById('open');
 let editor = document.getElementById('editor');
-let board = document.getElementById('board');
-let closer = document.getElementById('close');
-opener.addEventListener('click', () => {editor.classList.add('active')});
-closer.addEventListener('click', () => {editor.classList.remove('active')});
-let addLineButton = document.getElementById('add-line');
-addLineButton.addEventListener('click', addLine);
-let pasteButton = document.getElementById('paste');
-pasteButton.addEventListener('click', paste);
-let firstLine = document.querySelector('.line');
-createSpecimen(firstLine, 'line');
-for (let x of ['akkord', 'boi', 'vocals']){
-  let smpCycle = document.querySelector(`.${x} .cycle`);
-  createSpecimen(smpCycle, x);
-}
-createSpecimen(document.querySelector(`.create .hit`), 'hit');
-activateButtons(firstLine, 'line');
-let tools = document.querySelector('.tools');
-activateButtons(tools, 'tools');
-activateButtons(editor, 'editor');
-if (localStorage.getItem('tempLines')){
-  displayPick(true);
-  buildEditor();
+if (editor){
+  let opener = document.getElementById('open');
+  let board = document.getElementById('board');
+  let closer = document.getElementById('close');
+  opener.addEventListener('click', () => {editor.classList.add('active')});
+  closer.addEventListener('click', () => {editor.classList.remove('active')});
+  let addLineButton = document.getElementById('add-line');
+  addLineButton.addEventListener('click', addLine);
+  let pasteButton = document.getElementById('paste');
+  pasteButton.addEventListener('click', paste);
+  let firstLine = document.querySelector('.line');
+  createSpecimen(firstLine, 'line');
+  for (let x of ['akkord', 'boi', 'vocals']){
+    let smpCycle = document.querySelector(`.${x} .cycle`);
+    createSpecimen(smpCycle, x);
+  }
+  //createSpecimen(document.querySelector(`.create .hit`), 'hit');
+  activateButtons(firstLine, 'line');
+  let tools = document.querySelector('.tools');
+  activateButtons(tools, 'tools');
+  activateButtons(editor, 'editor');
+  if (localStorage.getItem('tempLines')){
+    displayPick(true);
+    buildEditor();
+  }
+  document.getElementById('send').addEventListener('click', sendPick);
 }
 
 
@@ -302,6 +305,13 @@ function saveTemporary(event){
   localStorage.setItem('tempLines', JSON.stringify(tempLines));
   displayPick(true);
 }
+
+function sendPick(event){
+  let musicData = localStorage.getItem('tempLines');
+  console.log(musicData.length);
+  document.getElementById('music_data').value = musicData;
+}
+
 
 export {testChord, testBoi, saveBoi, listenBoi, confirmBoi, playLine, listenNote,
         confirmNote, playAll, saveTemporary};

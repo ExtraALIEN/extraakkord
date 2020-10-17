@@ -24,5 +24,6 @@ urlpatterns = [
     path('profile/<tr:username>', views.profile, name='profile'),
     path('add_artist/', views.add_artist, name='add_artist'),
     path('add_song/<tr:artist_name>', views.add_song, name='add_song'),
-    path('add_pick/<tr:artist_name>/<tr:song_name>/', views.add_pick, name='add_pick')
+    path('add_pick/<tr:artist_name>/<tr:song_name>/', views.add_pick, name='add_pick'),
+    path('create_boi/', views.create_boi, name='create_boi'),
 ]

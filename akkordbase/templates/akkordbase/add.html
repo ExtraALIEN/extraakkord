@@ -24,6 +24,7 @@
       {% if song %}
       <form class='ajax' action={% url view_url artist.slug song.slug %}
        method='POST'>
+       <input id='music_data' name='music_data' type='hidden'></>
       {% else %}
       <form class='ajax' action={% url view_url artist.slug %}
        method='POST'>
@@ -43,7 +44,7 @@
       {% endfor %}
     {% endif %}
       </div>
-        <button type="submit" name="button">Сохранить</button>
+        <button id='send' type="submit" name="button">Сохранить</button>
       </form>
   </div>
   <div id='status'>

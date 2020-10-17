@@ -26,12 +26,14 @@
         {% include './auth-block.html' %}
         {% block menu %}
         {% endblock %}
+        {% block tool %}
+        {% endblock %}
       </nav>
       <section class='content-area'>
         {% block content %}
         {% endblock %}
         {% if user.is_anonymous %}
-          
+
         {% else %}
           {% block add %}
           {% endblock %}
